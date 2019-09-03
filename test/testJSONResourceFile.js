@@ -39,42 +39,20 @@ var p = new CustomProject({
     id: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
-        "json": "localized_js"
+        "json": "localized_json"
     }
 }, "./testfiles", {
     locales:["en-GB"]
 });
 
 var p2 = new CustomProject({
-    id: "webapp",
+    id: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
-        "json": "localized_js"
+        "json": "localized_json"
     }
 }, "./testfiles", {
     locales:["en-GB", "de-DE", "de-AT"],
-    localeDefaults: {
-        "en": {
-            def: "en-US",
-            spec: "en"
-        },
-        "es": {
-            def: "es-US",
-            spec: "es"
-        },
-        "de": {
-            def: "de-DE",
-            spec: "de"
-        },
-        "zh-Hans": {
-            def: "zh-Hans-CN",
-            spec: "zh"
-        },
-        "zh-Hant": {
-            def: "zh-Hant-HK",
-            spec: "zh-Hant"
-        }
-    },
     identify: true
 });
 
@@ -95,7 +73,6 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/en-US.js",
             locale: "en-US"
         });
 
@@ -109,7 +86,6 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
@@ -119,7 +95,7 @@ module.exports.jsonresourcefile = {
         [
             p.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -128,7 +104,7 @@ module.exports.jsonresourcefile = {
             }),
             p.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -137,7 +113,7 @@ module.exports.jsonresourcefile = {
             }),
             p.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -158,16 +134,14 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
         test.ok(jsrf);
-
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -176,7 +150,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -185,7 +159,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -197,11 +171,11 @@ module.exports.jsonresourcefile = {
         });
 
         test.equal(jsrf.getContent(),
-            'ilib.data.strings_de_DE = {\n' +
+            '{\n' +
             '    "more source text": "mehr Quellentext",\n' +
             '    "source text": "Quellentext",\n' +
             '    "yet more source text": "noch mehr Quellentext"\n' +
-            '};\n'
+            '}'
         );
 
         test.done();
@@ -212,16 +186,11 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
         test.ok(jsrf);
-
-        test.equal(jsrf.getContent(),
-            'ilib.data.strings_de_DE = {};\n'
-        );
-
+        test.equal(jsrf.getContent(),'{}');
         test.done();
     },
 
@@ -230,7 +199,6 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
@@ -238,7 +206,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -247,7 +215,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -259,12 +227,11 @@ module.exports.jsonresourcefile = {
         });
 
         test.equal(jsrf.getContent(),
-            'ilib.data.strings_de_DE = {\n' +
+            '{\n' +
             '    "more source text": "mehr Quellen\\"text",\n' +
             '    "source text": "Quellen\\"text"\n' +
-            '};\n'
+            '}'
         );
-
         test.done();
     },
 
@@ -273,7 +240,6 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
@@ -281,7 +247,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -290,7 +256,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -302,10 +268,10 @@ module.exports.jsonresourcefile = {
         });
 
         test.equal(jsrf.getContent(),
-            'ilib.data.strings_de_DE = {\n' +
+            '{\n' +
             '    "more source text": "mehr Quellen\'text",\n' +
             '    "source text": "Quellen\'text"\n' +
-            '};\n'
+            '}'
         );
 
         test.done();
@@ -316,7 +282,6 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p2,
-            pathName: "localized_js/de-DE.js",
             locale: "de-DE"
         });
 
@@ -325,7 +290,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -334,7 +299,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -343,7 +308,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -355,11 +320,11 @@ module.exports.jsonresourcefile = {
         });
 
         var expected =
-            'ilib.data.strings_de_DE = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -379,7 +344,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/de.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
 
@@ -393,7 +358,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/de-DE.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
 
@@ -407,7 +372,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/de-AT.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
         test.done();
     },
 
@@ -421,7 +386,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/de-DE-ASDF.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
 
@@ -435,7 +400,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/de-AT-ASDF.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
         test.done();
     },
 
@@ -449,7 +414,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/zh.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/zh/strings.json");
         test.done();
     },
 
@@ -463,7 +428,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/zh-Hans-CN.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/zh/strings.json");
         test.done();
     },
 
@@ -477,7 +442,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/zh-Hant.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hant/HK/strings.json");
         test.done();
     },
 
@@ -491,7 +456,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/zh-Hans-SG.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hans/SG/strings.json");
         test.done();
     },
 
@@ -505,7 +470,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/zh-Hant-TW.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hant/TW/strings.json");
         test.done();
     },
 
@@ -519,7 +484,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/en.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/en/strings.json");
         test.done();
     },
 
@@ -528,13 +493,12 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p2,
-            locale: "de-AT",
-            pathName: "localized_js/foo.js"
+            locale: "de-AT"
         });
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_js/foo.js");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
         test.done();
     },
 
@@ -551,7 +515,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -560,7 +524,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -569,7 +533,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -582,11 +546,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_de = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -600,10 +564,10 @@ module.exports.jsonresourcefile = {
         test.expect(2);
 
         var p3 = new CustomProject({
-            id: "webapp",
+            id: "webos-web",
             sourceLocale: "en-US",
             resourceDirs: {
-                "js": "localized_js"
+                "json": "localized_json"
             }
         }, "./testfiles", {
             locales:["en-GB", "de-DE", "de-AT"],
@@ -620,7 +584,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -629,7 +593,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -638,7 +602,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -651,11 +615,11 @@ module.exports.jsonresourcefile = {
 
         // should use the full locale spec in the first line
         var expected =
-            'ilib.data.strings_de_DE = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -678,7 +642,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-AT",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -687,7 +651,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-AT",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -696,7 +660,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-AT",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -709,11 +673,11 @@ module.exports.jsonresourcefile = {
 
         // should use the full locale spec in the first line
         var expected =
-            'ilib.data.strings_de_AT = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -736,7 +700,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-CN",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -745,7 +709,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-CN",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -754,7 +718,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-CN",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -767,11 +731,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_zh = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -794,7 +758,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-HK",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -803,7 +767,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-HK",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -812,7 +776,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-HK",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -825,11 +789,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_zh_Hant = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -852,7 +816,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-SG",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -861,7 +825,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-SG",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -870,7 +834,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hans-SG",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -883,11 +847,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_zh_Hans_SG = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -910,7 +874,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-TW",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -919,7 +883,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-TW",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -928,7 +892,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "zh-Hant-TW",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -941,11 +905,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_zh_Hant_TW = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -968,7 +932,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -977,7 +941,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -986,7 +950,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -999,11 +963,11 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_de_DE_ASDF = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
@@ -1026,7 +990,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -1035,7 +999,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -1044,7 +1008,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webapp",
+                project: "webos-web",
                 targetLocale: "de-DE-ASDF",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -1057,17 +1021,16 @@ module.exports.jsonresourcefile = {
 
         // should use the default locale spec in the first line
         var expected =
-            'ilib.data.strings_de_DE_ASDF = {\n' +
+            '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
             '    "source text": "<span loclang=\\"javascript\\" locid=\\"source text\\">Quellentext</span>",\n' +
             '    "yet more source text": "<span loclang=\\"javascript\\" locid=\\"yet more source text\\">noch mehr Quellentext</span>"\n' +
-            '};\n';
+            '}';
 
         var actual = jsrf.getContent();
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     }
 };

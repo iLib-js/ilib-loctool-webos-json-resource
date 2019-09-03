@@ -64,7 +64,6 @@ module.exports.jsonresourcefiletype = {
 
         var jsrf = htf.getResourceFile("fr-FR");
         test.equal(jsrf.getLocale(), "fr-FR");
-
         test.done();
     },
 
@@ -81,7 +80,6 @@ module.exports.jsonresourcefiletype = {
         test.equal(jsrf2.getLocale(), "fr-FR");
 
         test.deepEqual(jsrf1, jsrf2);
-
         test.done();
     }
 };

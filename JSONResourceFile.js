@@ -20,9 +20,10 @@
 var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
+var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
 var log4js = require("log4js");
 
-var logger = log4js.getLogger("loctool.plugin.JavaScriptResourceFile");
+var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
  * @class Represents an Android resource file.
@@ -37,13 +38,19 @@ var logger = log4js.getLogger("loctool.plugin.JavaScriptResourceFile");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
+    var langDefaultLocale, propsLocale;
+
     this.locale = new Locale();
+    this.fallbackLocale = false;
 
     if (props) {
         this.project = props.project;
-        this.pathName = props.pathName;
         this.locale = new Locale(props.locale);
         this.API = props.project.getAPI();
+
+        langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
+        propsLocale = new LocaleMatcher({locale: this.locale});
+        this.fallbackLocale = ((langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec())? true:false);
     }
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
@@ -178,8 +185,6 @@ JSONResourceFile.prototype.getContent = function() {
         }
     }
 
-    var defaultSpec = this.pathName ? this.locale.getSpec() : this.getDefaultSpec();
-
     // allow for a project-specific prefix to the file to do things like importing modules and such
     var output = "";
     var settings = this.project.settings;
@@ -196,6 +201,30 @@ JSONResourceFile.prototype.getContent = function() {
 };
 
 /**
+ * @private
+ */
+JSONResourceFile.prototype._calcLocalePath = function(locale) {
+    var path = "";
+    var language = locale.language;
+    var script = locale.script;
+    var region = locale.region;
+
+    if (language) {
+        path += language + "/";
+        if (this.fallbackLocale) {
+            return path;
+        }
+    }
+    if (script) {
+        path += script + "/";
+    }
+    if (region) {
+        path += region + "/";
+    }
+    return path;
+}
+
+/**
  * Find the path for the resource file for the given project, context,
  * and locale.
  *
@@ -206,21 +235,17 @@ JSONResourceFile.prototype.getContent = function() {
  * given project, context, and locale.
  */
 JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
-    if (this.pathName) return this.pathName;
-
-    var localeDir, dir, newPath, spec;
+    var localeDir, dir, newPath, spec, localePath;
     locale = locale || this.locale;
 
     var defaultSpec = this.getDefaultSpec();
-
-    //var filename = defaultSpec + ".json";
+    localePath = this._calcLocalePath(locale);
     var filename = "strings.json";
 
     dir = this.project.getResourceDirs("json")[0] || ".";
-    newPath = path.join(dir, filename);
+    newPath = path.join(dir, localePath, filename);
 
     logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
-
     return newPath;
 };
 
@@ -230,19 +255,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
 JSONResourceFile.prototype.write = function() {
     logger.trace("writing resource file. [" + this.project.getProjectId() + "," + this.locale + "]");
     if (this.set.isDirty()) {
-        if (!this.pathName) {
-            logger.trace("Calculating path name ");
-
-            // must be a new file, so create the name
-            this.pathName = path.join(this.project.target, this.getResourceFilePath());
-        } else {
-            this.defaultSpec = this.locale.getSpec();
-        }
-
-        var json = {};
-
-        logger.info("Writing JSON resources for locale " + this.locale + " to file " + this.pathName);
-
+        this.defaultSpec = this.locale.getSpec();
         dir = path.dirname(this.pathName);
         this.API.utils.makeDirs(dir);
 
