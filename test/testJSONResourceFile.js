@@ -80,7 +80,6 @@ module.exports.jsonresourcefile = {
 
         test.done();
     },
-
     testJSONResourceFileIsDirty: function(test) {
         test.expect(3);
 

@@ -22,7 +22,7 @@ var path = require("path");
 var ilib = require("ilib");
 var Locale = require("ilib/lib/Locale.js");
 var log4js = require("log4js");
-
+var FileType = require("loctool/lib/FileType.js");
 var JSONResourceFile = require("./JSONResourceFile.js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
 
@@ -32,12 +32,19 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
  * @param {Project} project that this type is in
  */
 var JSONResourceFileType = function(project) {
+    this.parent.call(this,project);
+
     this.type = "json";
+    this.datatype = "json";
     this.project = project;
     this.resourceFiles = {};
     this.API = project.getAPI();
     this.extensions = ".json";
 };
+
+JSONResourceFileType.prototype = new FileType();
+JSONResourceFileType.prototype.parent = FileType;
+JSONResourceFileType.prototype.constructor = JSONResourceFileType;
 
 /**
  * Return true if this file type handles the type of file in the
@@ -149,17 +156,15 @@ JSONResourceFileType.prototype.getResourceTypes = function() {
 };
 
 /**
- * Return the translation set containing all of the extracted
- * resources for all instances of this type of file. This includes
- * all new strings and all existing strings. If it was extracted
- * from a source file, it should be returned here.
+ * Return the list of file name extensions that this plugin can
+ * process.
  *
- * @returns {TranslationSet} the set containing all of the
- * extracted resources
+ * @returns {Array.<string>} the list of file name extensions
  */
-JSONResourceFileType.prototype.getExtracted = function() {
-    return this.extracted;
+JSONResourceFileType.prototype.getExtensions = function() {
+    return this.extensions;
 };
+
 
 /**
  * Add the contents of the given translation set to the extracted resources

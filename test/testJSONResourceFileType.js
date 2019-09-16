@@ -32,17 +32,42 @@ module.exports.jsonresourcefiletype = {
     testJSONResourceFileTypeConstructor: function(test) {
         test.expect(1);
 
-        var htf = new JSONResourceFileType(p);
-        test.ok(htf);
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+        test.done();
+    },
+    testJSONResourceFileGetName: function(test) {
+        test.expect(2);
+
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+        test.equal(jrft.name(), 'JSON Resource File');
+        test.done();
+    },
+    testJSONResourceFileGetDataType: function(test) {
+        test.expect(2);
+
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+        test.equal(jrft.getDataType(), 'json');
+        test.done();
+    },
+    testJSONResourceFileGetExtensions: function(test) {
+        test.expect(2);
+
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+
+        test.equal(jrft.getExtensions(),'.json');
         test.done();
     },
 
     testJSONResourceFileTypeHandlesJS: function(test) {
         test.expect(2);
 
-        var htf = new JSONResourceFileType(p);
-        test.ok(htf);
-        test.ok(!htf.handles("foo.json"));
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+        test.ok(!jrft.handles("foo.json"));
 
         test.done();
     },
@@ -50,19 +75,19 @@ module.exports.jsonresourcefiletype = {
     testJSONResourceFileTypeHandlesActualJSResFile: function(test) {
         test.expect(2);
 
-        var htf = new JSONResourceFileType(p);
-        test.ok(htf);
-        test.ok(!htf.handles("localized_js/de-DE.js"));
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
+        test.ok(!jrft.handles("localized_js/de-DE.js"));
         test.done();
     },
 
     testJSONResourceFileTypeGetResourceFile: function(test) {
         test.expect(2);
 
-        var htf = new JSONResourceFileType(p);
-        test.ok(htf);
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
 
-        var jsrf = htf.getResourceFile("fr-FR");
+        var jsrf = jrft.getResourceFile("fr-FR");
         test.equal(jsrf.getLocale(), "fr-FR");
         test.done();
     },
@@ -70,13 +95,13 @@ module.exports.jsonresourcefiletype = {
     testJSONResourceFileTypeGetResourceFileSameOneEachTime: function(test) {
         test.expect(4);
 
-        var htf = new JSONResourceFileType(p);
-        test.ok(htf);
+        var jrft = new JSONResourceFileType(p);
+        test.ok(jrft);
 
-        var jsrf1 = htf.getResourceFile("fr-FR");
+        var jsrf1 = jrft.getResourceFile("fr-FR");
         test.equal(jsrf1.getLocale(), "fr-FR");
 
-        var jsrf2 = htf.getResourceFile("fr-FR");
+        var jsrf2 = jrft.getResourceFile("fr-FR");
         test.equal(jsrf2.getLocale(), "fr-FR");
 
         test.deepEqual(jsrf1, jsrf2);
