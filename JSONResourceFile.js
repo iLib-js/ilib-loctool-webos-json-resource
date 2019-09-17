@@ -20,9 +20,7 @@
 var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
-var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
 var log4js = require("log4js");
-
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
@@ -38,8 +36,6 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
-    var langDefaultLocale, propsLocale;
-
     this.locale = new Locale();
     this.fallbackLocale = false;
 
@@ -47,10 +43,6 @@ var JSONResourceFile = function(props) {
         this.project = props.project;
         this.locale = new Locale(props.locale);
         this.API = props.project.getAPI();
-
-        langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
-        propsLocale = new LocaleMatcher({locale: this.locale});
-        this.fallbackLocale = ((langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec())? true:false);
     }
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
@@ -135,6 +127,7 @@ JSONResourceFile.prototype.isDirty = function() {
 JSONResourceFile.prototype.localize = function() {};
 
 function clean(str) {
+    if (!str) return;
     return str.replace(/\s+/, " ").trim();
 }
 
@@ -209,9 +202,11 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
     var script = locale.script;
     var region = locale.region;
 
+    var baseLocales = require("./baselanguage.json");
+
     if (language) {
         path += language + "/";
-        if (this.fallbackLocale) {
+        if (baseLocales[language] === locale.getSpec()) {
             return path;
         }
     }
@@ -256,6 +251,11 @@ JSONResourceFile.prototype.write = function() {
     logger.trace("writing resource file. [" + this.project.getProjectId() + "," + this.locale + "]");
     if (this.set.isDirty()) {
         this.defaultSpec = this.locale.getSpec();
+
+        if (!this.pathName) {
+            this.pathName = this.getResourceFilePath();
+        }
+
         dir = path.dirname(this.pathName);
         this.API.utils.makeDirs(dir);
 

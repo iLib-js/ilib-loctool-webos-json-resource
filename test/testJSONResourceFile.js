@@ -380,7 +380,7 @@ module.exports.jsonresourcefile = {
 
         var jsrf = new JSONResourceFile({
             project: p2,
-            locale: "de-DE-ASDF"
+            locale: "de-DE"
         });
 
         test.ok(jsrf);
@@ -1031,5 +1031,30 @@ module.exports.jsonresourcefile = {
 
         test.equal(actual, expected);
         test.done();
-    }
+    },
+    teasJSONResourceFileGetResourceFilePaths: function(test) {
+        test.expect(13);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "localized_json/en/strings.json","localized_json/en/GB/strings.json",
+            "localized_json/en/AU/strings.json","localized_json/es/CO/strings.json",
+            "localized_json/es/strings.json","localized_json/et/strings.json",
+            "localized_json/fa/strings.json","localized_json/fa/AF/strings.json",
+            "localized_json/fr/strings.json","localized_json/fr/CA/strings.json",
+            "localized_json/zh/strings.json","localized_json/zh/Hant/HK/strings.json",
+            "localized_json/zh/Hant/TW/strings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p2,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    },
 };
+

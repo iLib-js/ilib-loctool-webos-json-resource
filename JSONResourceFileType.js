@@ -39,7 +39,7 @@ var JSONResourceFileType = function(project) {
     this.project = project;
     this.resourceFiles = {};
     this.API = project.getAPI();
-    this.extensions = ".json";
+    this.extensions = [".json"];
 };
 
 JSONResourceFileType.prototype = new FileType();
