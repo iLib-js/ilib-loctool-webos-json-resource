@@ -1055,6 +1055,6 @@ module.exports.jsonresourcefile = {
             test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
         test.done();
-    },
+    }
 };
 
