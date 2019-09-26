@@ -1,7 +1,7 @@
 /*
  * testJSONResourceFile.js - test the JavaScript file handler object.
  *
- * Copyright © 2019, Box, Inc.
+ * Copyright © 2019, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
