@@ -39,7 +39,7 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 var JSONResourceFile = function(props) {
     var lanDefaultLocale, propsLocale;
     this.locale = new Locale();
-    this.fallbackLocale = false;
+    this.baseLocale = false;
 
     if (props) {
         this.project = props.project;
@@ -48,7 +48,7 @@ var JSONResourceFile = function(props) {
 
         langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
         propsLocale = new LocaleMatcher({locale: this.locale});
-        this.fallbackLocale = ((langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec())? true:false);
+        this.baseLocale = ((langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec())? true:false);
     }
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
@@ -211,7 +211,7 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
 
     if (language) {
         path += language + "/";
-        if (this.fallbackLocale) {
+        if (this.baseLocale) {
             return path;
         }
     }
