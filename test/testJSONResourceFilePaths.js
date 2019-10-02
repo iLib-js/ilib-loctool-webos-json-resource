@@ -67,7 +67,7 @@ module.exports.jsonresourcefile = {
 
         test.done();
     },    
-    teasJSONResourceFileGetResourceFilePaths: function(test) {
+    testJSONResourceFileGetResourceFilePaths: function(test) {
         test.expect(193);
         var jsrf;
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
@@ -296,4 +296,3 @@ module.exports.jsonresourcefile = {
         test.done();
     },
 };
-

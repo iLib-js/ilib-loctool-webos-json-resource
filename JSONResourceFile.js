@@ -48,7 +48,7 @@ var JSONResourceFile = function(props) {
 
         langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
         propsLocale = new LocaleMatcher({locale: this.locale});
-        this.baseLocale = ((langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec())? true:false);
+        this.baseLocale = langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec();
     }
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
