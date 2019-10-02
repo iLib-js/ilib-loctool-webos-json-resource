@@ -20,6 +20,7 @@
 var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
+var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
 var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
@@ -36,13 +37,18 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
+    var lanDefaultLocale, propsLocale;
     this.locale = new Locale();
-    this.fallbackLocale = false;
+    this.baseLocale = false;
 
     if (props) {
         this.project = props.project;
         this.locale = new Locale(props.locale);
         this.API = props.project.getAPI();
+
+        langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
+        propsLocale = new LocaleMatcher({locale: this.locale});
+        this.baseLocale = langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec();
     }
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
@@ -202,11 +208,10 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
     var script = locale.script;
     var region = locale.region;
 
-    var baseLocales = require("./baselanguage.json");
 
     if (language) {
         path += language + "/";
-        if (baseLocales[language] === locale.getSpec()) {
+        if (this.baseLocale) {
             return path;
         }
     }
