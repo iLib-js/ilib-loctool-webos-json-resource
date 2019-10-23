@@ -272,6 +272,17 @@ JSONResourceFile.prototype.write = function() {
     }
 };
 
+
+/**
+ * Write the manifest file to disk.
+ */
+JSONResourceFile.prototype.writeManifest = function(manifestInfo) {
+    logger.info("writing ilibmanifest.json file in [" + this.project.getResourceDirs("json")[0] +"]");
+    if (!manifestInfo) return;
+    var manifestFilePath = path.join(this.project.getResourceDirs("json")[0], "ilibmanifest.json");
+    fs.writeFileSync(manifestFilePath, JSON.stringify(manifestInfo), 'utf8');
+};
+
 /**
  * Return the set of resources found in the current Android
  * resource file.

@@ -32,8 +32,7 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
  * @param {Project} project that this type is in
  */
 var JSONResourceFileType = function(project) {
-    this.parent.call(this,project);
-
+    this.parent.call(this, project);
     this.type = "json";
     this.datatype = "json";
     this.project = project;
@@ -196,5 +195,23 @@ JSONResourceFileType.prototype.getNew = function() {
  */
 JSONResourceFileType.prototype.getPseudo = function() {
     return this.pseudo;
+};
+
+/**
+ *
+ */
+
+JSONResourceFileType.prototype.projectClose = function() {
+    var resourcePathInfo = [];
+    var resourceRoot = this.project.getResourceDirs("json")[0] || "resources";
+    var manifestFile = new JSONResourceFile({project: this.project});
+    var manifestContents = {};
+    for (var hash in this.resourceFiles) {
+        path = this.resourceFiles[hash].pathName.replace(resourceRoot + "/","");
+        resourcePathInfo.push(path);
+    }
+
+    manifestContents.files = resourcePathInfo;
+    manifestFile.writeManifest(manifestContents);
 };
 module.exports = JSONResourceFileType;
