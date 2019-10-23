@@ -211,6 +211,6 @@ JSONResourceFileType.prototype.projectClose = function() {
     }
 
     manifestContents.files = resourcePathInfo;
-    manifestFile.writeManifest(manifestContents);
+    manifestFile.writeManifest(resourceRoot, manifestContents);
 };
 module.exports = JSONResourceFileType;
