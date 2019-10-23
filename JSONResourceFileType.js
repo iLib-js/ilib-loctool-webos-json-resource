@@ -198,14 +198,13 @@ JSONResourceFileType.prototype.getPseudo = function() {
 };
 
 /**
- *
+ * Place for additional work after extracting/writing translation data
  */
-
 JSONResourceFileType.prototype.projectClose = function() {
-    var resourcePathInfo = [];
+    var resourcePathInfo = [], manifestContents = {};
     var resourceRoot = this.project.getResourceDirs("json")[0] || "resources";
     var manifestFile = new JSONResourceFile({project: this.project});
-    var manifestContents = {};
+
     for (var hash in this.resourceFiles) {
         path = this.resourceFiles[hash].pathName.replace(resourceRoot + "/","");
         resourcePathInfo.push(path);
