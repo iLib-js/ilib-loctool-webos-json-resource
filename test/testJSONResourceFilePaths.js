@@ -56,7 +56,7 @@ var p2 = new CustomProject({
     identify: true
 });
 
-module.exports.jsonresourcefile = {
+module.exports.jsonresourcefilepath = {
     testJSONResourceFileConstructor: function(test) {
         test.expect(1);
 
