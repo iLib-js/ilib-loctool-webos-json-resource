@@ -198,7 +198,10 @@ JSONResourceFileType.prototype.getPseudo = function() {
 };
 
 /**
- * Place for additional work after extracting/writing translation data
+ * Called right before each project is closed
+ * Allows the file type class to do any last-minute clean-up or generate any final files
+ *
+ * Generate manifest file based on created resource files
  */
 JSONResourceFileType.prototype.projectClose = function() {
     var resourcePathInfo = [], manifestContents = {};
