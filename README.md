@@ -2,6 +2,12 @@
 ilib-loctool-webos-json-resource is a plugin for the loctool that
 allows it to read and localize JSON resource files. This plugins is optimized for webOS platform.
 
+## Release Notes
+
+v1.0.1
+- Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
+  It's implemented in projectClose()
+
 ## License
 
 Copyright © 2019, JEDLSoft
