@@ -4,9 +4,10 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 
-v1.0.1
-- Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
-  It's implemented in projectClose()
+v1.1.0
+* Generate `ilibmanifest.json file
+    * Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
+      It's implemented in projectClose()
 
 ## License
 
