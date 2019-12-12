@@ -8,7 +8,8 @@ v1.1.0
 * Generate `ilibmanifest.json file
     * Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
       It's implemented in projectClose()
-
+v1.1.1
+* Changed the way of generating manifestfile. it scans the resource output directory then add a list if the file exists.
 ## License
 
 Copyright © 2019, JEDLSoft
