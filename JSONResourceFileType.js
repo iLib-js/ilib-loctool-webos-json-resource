@@ -208,12 +208,11 @@ JSONResourceFileType.prototype.projectClose = function() {
     var resourceRoot = this.project.getResourceDirs("json")[0] || "resources";
     var manifestFile = new JSONResourceFile({project: this.project});
 
-    for (var hash in this.resourceFiles) {
+    /*for (var hash in this.resourceFiles) {
         path = this.resourceFiles[hash].pathName.replace(resourceRoot + "/","");
         resourcePathInfo.push(path);
     }
-
-    manifestContents.files = resourcePathInfo;
-    manifestFile.writeManifest(resourceRoot, manifestContents);
+    manifestContents.files = resourcePathInfo;*/
+    manifestFile.writeManifest(resourceRoot);
 };
 module.exports = JSONResourceFileType;

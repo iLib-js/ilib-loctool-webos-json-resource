@@ -276,11 +276,34 @@ JSONResourceFile.prototype.write = function() {
 /**
  * Write the manifest file to disk.
  */
-JSONResourceFile.prototype.writeManifest = function(filePath, manifestInfo) {
+JSONResourceFile.prototype.writeManifest = function(filePath) {
     logger.info("writing ilibmanifest.json file");
-    if (!manifestInfo) return;
+    var manifest = {
+        files: []
+    };
+
+    function walk(root, dir) {
+        var list = fs.readdirSync(path.join(root, dir));
+        list.forEach(function (file) {
+            var sourcePathRelative = path.join(dir, file);
+            var sourcePath = path.join(root, sourcePathRelative);
+            var stat = fs.statSync(sourcePath);
+            if (stat && stat.isDirectory()) {
+                walk(root, sourcePathRelative);
+            } else {
+                if (file.match(/\.json$/) && (file !== "ilibmanifest.json")) {
+                    manifest.files.push(sourcePathRelative);
+                }
+            }
+        });
+    }
+
+    walk(filePath, "");
+    for (var i=0; i < manifest.files.length; i++) {
+        console.log("list: ", manifest.files[i]);
+    }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
-    fs.writeFileSync(manifestFilePath, JSON.stringify(manifestInfo), 'utf8');
+    fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');
 };
 
 /**
