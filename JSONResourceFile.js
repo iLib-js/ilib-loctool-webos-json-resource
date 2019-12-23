@@ -240,7 +240,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
 
     var defaultSpec = this.getDefaultSpec();
     localePath = this._calcLocalePath(locale);
-    var filename = "strings.json";
+    var filename = this.project.resourceFileName || "strings.json";
 
     dir = this.project.getResourceDirs("json")[0] || ".";
     newPath = path.join(dir, localePath, filename);

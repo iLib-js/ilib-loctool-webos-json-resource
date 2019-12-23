@@ -56,6 +56,18 @@ var p2 = new CustomProject({
     identify: true
 });
 
+var p3 = new CustomProject({
+    id: "webos-web",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "localized_json"
+    },
+    resourceFileName: "cstrings.json",
+}, "./testfiles", {
+    locales:["en-GB", "de-DE", "de-AT"],
+    identify: true
+});
+
 module.exports.jsonresourcefile = {
     testJSONResourceFileConstructor: function(test) {
         test.expect(1);
@@ -1055,6 +1067,29 @@ module.exports.jsonresourcefile = {
             test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
         test.done();
+    },
+    teasJSONResourceFileGetResourceFilePaths2: function(test) {
+        test.expect(13);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "localized_json/en/cstrings.json","localized_json/en/GB/cstrings.json",
+            "localized_json/en/AU/cstrings.json","localized_json/es/CO/cstrings.json",
+            "localized_json/es/cstrings.json","localized_json/et/cstrings.json",
+            "localized_json/fa/cstrings.json","localized_json/fa/AF/cstrings.json",
+            "localized_json/fr/cstrings.json","localized_json/fr/CA/cstrings.json",
+            "localized_json/zh/cstrings.json","localized_json/zh/Hant/HK/cstrings.json",
+            "localized_json/zh/Hant/TW/cstrings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p3,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
     }
 };
-
