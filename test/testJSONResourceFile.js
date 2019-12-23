@@ -57,15 +57,17 @@ var p2 = new CustomProject({
 });
 
 var p3 = new CustomProject({
-    id: "webos-web",
+    id: "webos-c",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
     },
-    resourceFileName: "cstrings.json",
 }, "./testfiles", {
     locales:["en-GB", "de-DE", "de-AT"],
-    identify: true
+    identify: true,
+    resourceFileNames: {
+      "c": "cstrings.json"
+    }
 });
 
 module.exports.jsonresourcefile = {
@@ -411,7 +413,7 @@ module.exports.jsonresourcefile = {
 
         test.ok(jsrf);
 
-        test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
+        test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/ASDF/strings.json");
         test.done();
     },
 

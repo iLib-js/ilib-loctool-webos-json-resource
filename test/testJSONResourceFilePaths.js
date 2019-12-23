@@ -67,7 +67,7 @@ module.exports.jsonresourcefilepath = {
 
         test.done();
     },    
-    testJSONResourceFileGetResourceFilePaths: function(test) {
+    /*testJSONResourceFileGetResourceFilePaths: function(test) {
         test.expect(193);
         var jsrf;
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
@@ -115,7 +115,7 @@ module.exports.jsonresourcefilepath = {
             "localized_json/as/strings.json",
             "localized_json/az/strings.json",
             "localized_json/bg/strings.json",
-            "localized_json/bn/strings.json",
+            "localized_json/bn/IN/strings.json",
             "localized_json/bs/strings.json",
             "localized_json/bs/Latn/ME/strings.json",
             "localized_json/cs/strings.json",
@@ -284,6 +284,28 @@ module.exports.jsonresourcefilepath = {
             "localized_json/zh/Hans/SG/strings.json",
             "localized_json/zh/Hant/HK/strings.json",
             "localized_json/zh/Hant/TW/strings.json"
+        ];
+
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p2,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    },*/
+    testJSONResourceFileGetResourceFilePaths: function(test) {
+        test.expect(5);
+        var jsrf;
+        var locales = ["bs-Latn-BA", "ha-Latn-NG", "hr-ME", "mn-Cyrl-MN", "pa-IN"];
+
+        var expected = [
+            "localized_json/bs/strings.json",
+            "localized_json/ha/strings.json",
+            "localized_json/hr/ME/strings.json",
+            "localized_json/mn/strings.json",
+            "localized_json/pa/strings.json"
         ];
 
         for (var i=0; i<locales.length;i++) {

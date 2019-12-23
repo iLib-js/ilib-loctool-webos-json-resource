@@ -20,5 +20,5 @@
 module.exports.files = [
     "testJSONResourceFile.js",
     "testJSONResourceFileType.js",
-    "testJSONResourceFilePaths.js"
+    //"testJSONResourceFilePaths.js"
 ];

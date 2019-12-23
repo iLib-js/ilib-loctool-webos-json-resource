@@ -38,18 +38,15 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  */
 var JSONResourceFile = function(props) {
     var lanDefaultLocale, propsLocale;
-    this.locale = new Locale();
-    this.baseLocale = false;
 
-    if (props) {
-        this.project = props.project;
-        this.locale = new Locale(props.locale);
-        this.API = props.project.getAPI();
+    this.project = props.project;
+    this.locale = new Locale(props.locale);
+    this.API = props.project.getAPI();
 
-        langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
-        propsLocale = new LocaleMatcher({locale: this.locale});
-        this.baseLocale = langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec();
-    }
+    this.minimalLocale = new LocaleMatcher({locale: props.locale}).getLikelyLocaleMinimal().getSpec();
+    langDefaultLocale = new LocaleMatcher({locale: this.locale.language}).getLikelyLocaleMinimal().getSpec();
+
+    this.baseLocale = langDefaultLocale === this.minimalLocale;
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
 };
@@ -203,25 +200,17 @@ JSONResourceFile.prototype.getContent = function() {
  * @private
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
-    var path = "";
-    var language = locale.language;
-    var script = locale.script;
-    var region = locale.region;
+    var fullPath = "";
+    var splitLocale = this.locale.getSpec().split("-");
 
-
-    if (language) {
-        path += language + "/";
-        if (this.baseLocale) {
-            return path;
+    if (this.baseLocale) {
+        fullPath = "/" + splitLocale[0];
+    } else {
+        for (var i=0; i < splitLocale.length; i++) {
+            fullPath += "/" + splitLocale[i];
         }
     }
-    if (script) {
-        path += script + "/";
-    }
-    if (region) {
-        path += region + "/";
-    }
-    return path;
+    return fullPath;
 }
 
 /**
@@ -238,7 +227,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     var localeDir, dir, newPath, spec, localePath;
     locale = locale || this.locale;
 
-    var defaultSpec = this.getDefaultSpec();
+    //var defaultSpec = this.getDefaultSpec();
     localePath = this._calcLocalePath(locale);
     var filename = this.project.resourceFileName || "strings.json";
 
