@@ -25,7 +25,7 @@ var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
- * @class Represents an Android resource file.
+ * @class Represents an JSON resource file.
  * The props may contain any of the following properties:
  *
  * <ul>
@@ -57,7 +57,7 @@ var JSONResourceFile = function(props) {
 JSONResourceFile.prototype.extract = function() {};
 
 /**
- * Get the locale of this resource file. For Android resource files, this
+ * Get the locale of this resource file. For JSON resource files, this
  * can be extracted automatically based on the name of the directory
  * that the file is in.
  *
@@ -68,7 +68,7 @@ JSONResourceFile.prototype.getLocale = function() {
 };
 
 /**
- * Get the locale of this resource file. For Android resource files, this
+ * Get the locale of this resource file. For JSON resource files, this
  * can be extracted automatically based on the name of the directory
  * that the file is in.
  *
@@ -276,7 +276,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath, manifestInfo) {
 };
 
 /**
- * Return the set of resources found in the current Android
+ * Return the set of resources found in the current JSON
  * resource file.
  *
  * @returns {TranslationSet} The set of resources found in the
