@@ -303,7 +303,7 @@ module.exports.jsonresourcefilepath = {
         var expected = [
             "localized_json/bs/strings.json",
             "localized_json/ha/strings.json",
-            "localized_json/hr/ME/strings.json",
+            "localized_json/hr/strings.json",
             "localized_json/mn/strings.json",
             "localized_json/pa/strings.json"
         ];

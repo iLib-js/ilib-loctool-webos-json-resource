@@ -70,6 +70,20 @@ var p3 = new CustomProject({
     }
 });
 
+var p4 = new CustomProject({
+    id: "webos-cpp",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "resources"
+    },
+}, "./testfiles", {
+    locales:["en-GB", "de-DE", "de-AT"],
+    identify: true,
+    resourceFileNames: {
+      "cpp": "cppstrings.json"
+    }
+});
+
 module.exports.jsonresourcefile = {
     testJSONResourceFileConstructor: function(test) {
         test.expect(1);
@@ -576,7 +590,7 @@ module.exports.jsonresourcefile = {
     testJSONResourceFileGetContentDefaultLocaleNoDefaultsAvailable: function(test) {
         test.expect(2);
 
-        var p3 = new CustomProject({
+        var customP = new CustomProject({
             id: "webos-web",
             sourceLocale: "en-US",
             resourceDirs: {
@@ -588,7 +602,7 @@ module.exports.jsonresourcefile = {
         });
 
         var jsrf = new JSONResourceFile({
-            project: p3,
+            project: customP,
             locale: "de-DE"
         });
 
@@ -1088,6 +1102,30 @@ module.exports.jsonresourcefile = {
         for (var i=0; i<locales.length;i++) {
             jsrf = new JSONResourceFile({
                 project: p3,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    },
+    teasJSONResourceFileGetResourceFilePaths3: function(test) {
+        test.expect(13);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "resources/en/cppstrings.json","resources/en/GB/cppstrings.json",
+            "resources/en/AU/cppstrings.json","resources/es/CO/cppstrings.json",
+            "resources/es/cppstrings.json","resources/et/cppstrings.json",
+            "resources/fa/cppstrings.json","resources/fa/AF/cppstrings.json",
+            "resources/fr/cppstrings.json","resources/fr/CA/cppstrings.json",
+            "resources/zh/cppstrings.json","resources/zh/Hant/HK/cppstrings.json",
+            "resources/zh/Hant/TW/cppstrings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p4,
                 locale: locales[i]
             });
             test.equal(jsrf.getResourceFilePath(), expected[i]);
