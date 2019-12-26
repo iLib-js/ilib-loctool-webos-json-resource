@@ -16,6 +16,7 @@ v1.2.0
             }
         }
         ~~~~
+v1.1.0
 * Generate `ilibmanifest.json` file
     * Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
       It's implemented in projectClose()
