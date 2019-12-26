@@ -124,7 +124,6 @@ JSONResourceFileType.prototype.getResourceFile = function(locale) {
     return resfile;
 };
 
-
 /**
  * Ensure that all resources collected so far have a pseudo translation.
  */
@@ -163,7 +162,6 @@ JSONResourceFileType.prototype.getResourceTypes = function() {
 JSONResourceFileType.prototype.getExtensions = function() {
     return this.extensions;
 };
-
 
 /**
  * Add the contents of the given translation set to the extracted resources

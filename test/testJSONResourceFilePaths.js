@@ -56,6 +56,32 @@ var p2 = new CustomProject({
     identify: true
 });
 
+var p3 = new CustomProject({
+    id: "webos-c",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "localized_json"
+    },
+}, "./testfiles", {
+    identify: true,
+    resourceFileNames: {
+      "c": "cstrings.json"
+    }
+});
+
+var p4 = new CustomProject({
+    id: "webos-cpp",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "resources"
+    },
+}, "./testfiles", {
+    identify: true,
+    resourceFileNames: {
+      "cpp": "cppstrings.json"
+    }
+});
+
 module.exports.jsonresourcefilepath = {
     testJSONResourceFileConstructor: function(test) {
         test.expect(1);
@@ -66,7 +92,7 @@ module.exports.jsonresourcefilepath = {
         test.ok(jsrf);
 
         test.done();
-    },    
+    },
     testJSONResourceFileGetResourceFilePaths: function(test) {
         test.expect(193);
         var jsrf;
@@ -218,7 +244,7 @@ module.exports.jsonresourcefilepath = {
             "localized_json/he/strings.json",
             "localized_json/hi/strings.json",
             "localized_json/hr/strings.json",
-            "localized_json/hr/strings.json",
+            "localized_json/hr/ME/strings.json",
             "localized_json/hu/strings.json",
             "localized_json/id/strings.json",
             "localized_json/is/strings.json",
@@ -303,7 +329,7 @@ module.exports.jsonresourcefilepath = {
         var expected = [
             "localized_json/bs/strings.json",
             "localized_json/ha/strings.json",
-            "localized_json/hr/strings.json",
+            "localized_json/hr/ME/strings.json",
             "localized_json/mn/strings.json",
             "localized_json/pa/strings.json"
         ];
@@ -317,4 +343,53 @@ module.exports.jsonresourcefilepath = {
         }
         test.done();
     },
+    teasJSONResourceFileGetResourceFilePaths3: function(test) {
+        test.expect(13);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "localized_json/en/cstrings.json","localized_json/en/GB/cstrings.json",
+            "localized_json/en/AU/cstrings.json","localized_json/es/CO/cstrings.json",
+            "localized_json/es/cstrings.json","localized_json/et/cstrings.json",
+            "localized_json/fa/cstrings.json","localized_json/fa/AF/cstrings.json",
+            "localized_json/fr/cstrings.json","localized_json/fr/CA/cstrings.json",
+            "localized_json/zh/cstrings.json","localized_json/zh/Hant/HK/cstrings.json",
+            "localized_json/zh/Hant/TW/cstrings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p3,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths4: function(test) {
+        test.expect(15);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "resources/en/cppstrings.json","resources/en/GB/cppstrings.json",
+            "resources/en/AU/cppstrings.json","resources/es/CO/cppstrings.json",
+            "resources/es/cppstrings.json","resources/et/cppstrings.json",
+            "resources/fa/cppstrings.json","resources/fa/AF/cppstrings.json",
+            "resources/fr/cppstrings.json","resources/fr/CA/cppstrings.json",
+            "resources/hr/cppstrings.json", "resources/hr/ME/cppstrings.json",
+            "resources/zh/cppstrings.json","resources/zh/Hant/HK/cppstrings.json",
+            "resources/zh/Hant/TW/cppstrings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p4,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    }
 };

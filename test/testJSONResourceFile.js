@@ -56,34 +56,6 @@ var p2 = new CustomProject({
     identify: true
 });
 
-var p3 = new CustomProject({
-    id: "webos-c",
-    sourceLocale: "en-US",
-    resourceDirs: {
-        "json": "localized_json"
-    },
-}, "./testfiles", {
-    locales:["en-GB", "de-DE", "de-AT"],
-    identify: true,
-    resourceFileNames: {
-      "c": "cstrings.json"
-    }
-});
-
-var p4 = new CustomProject({
-    id: "webos-cpp",
-    sourceLocale: "en-US",
-    resourceDirs: {
-        "json": "resources"
-    },
-}, "./testfiles", {
-    locales:["en-GB", "de-DE", "de-AT"],
-    identify: true,
-    resourceFileNames: {
-      "cpp": "cppstrings.json"
-    }
-});
-
 module.exports.jsonresourcefile = {
     testJSONResourceFileConstructor: function(test) {
         test.expect(1);
@@ -92,7 +64,6 @@ module.exports.jsonresourcefile = {
             project: p
         });
         test.ok(jsrf);
-
         test.done();
     },
 
@@ -105,7 +76,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.done();
     },
     testJSONResourceFileIsDirty: function(test) {
@@ -152,7 +122,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf.isDirty());
-
         test.done();
     },
 
@@ -357,7 +326,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -370,7 +338,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
@@ -384,7 +351,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
@@ -398,7 +364,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
         test.done();
     },
@@ -412,7 +377,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/strings.json");
         test.done();
     },
@@ -426,7 +390,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/ASDF/strings.json");
         test.done();
     },
@@ -440,7 +403,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/zh/strings.json");
         test.done();
     },
@@ -454,7 +416,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/zh/strings.json");
         test.done();
     },
@@ -468,7 +429,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hant/HK/strings.json");
         test.done();
     },
@@ -482,7 +442,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hans/SG/strings.json");
         test.done();
     },
@@ -496,7 +455,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/zh/Hant/TW/strings.json");
         test.done();
     },
@@ -510,7 +468,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/en/strings.json");
         test.done();
     },
@@ -524,7 +481,6 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-
         test.equal(jsrf.getResourceFilePath(), "localized_json/de/AT/strings.json");
         test.done();
     },
@@ -583,7 +539,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -652,7 +607,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -710,7 +664,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -768,7 +721,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -826,7 +778,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -884,7 +835,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -942,7 +892,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -1000,7 +949,6 @@ module.exports.jsonresourcefile = {
         diff(actual, expected);
 
         test.equal(actual, expected);
-
         test.done();
     },
 
@@ -1078,54 +1026,6 @@ module.exports.jsonresourcefile = {
         for (var i=0; i<locales.length;i++) {
             jsrf = new JSONResourceFile({
                 project: p2,
-                locale: locales[i]
-            });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
-        }
-        test.done();
-    },
-    teasJSONResourceFileGetResourceFilePaths2: function(test) {
-        test.expect(13);
-        var jsrf;
-        var locales = ["en-US","en-GB", "en-AU", "es-CO",
-                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
-
-        var expected = [
-            "localized_json/en/cstrings.json","localized_json/en/GB/cstrings.json",
-            "localized_json/en/AU/cstrings.json","localized_json/es/CO/cstrings.json",
-            "localized_json/es/cstrings.json","localized_json/et/cstrings.json",
-            "localized_json/fa/cstrings.json","localized_json/fa/AF/cstrings.json",
-            "localized_json/fr/cstrings.json","localized_json/fr/CA/cstrings.json",
-            "localized_json/zh/cstrings.json","localized_json/zh/Hant/HK/cstrings.json",
-            "localized_json/zh/Hant/TW/cstrings.json"
-        ];
-        for (var i=0; i<locales.length;i++) {
-            jsrf = new JSONResourceFile({
-                project: p3,
-                locale: locales[i]
-            });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
-        }
-        test.done();
-    },
-    teasJSONResourceFileGetResourceFilePaths3: function(test) {
-        test.expect(13);
-        var jsrf;
-        var locales = ["en-US","en-GB", "en-AU", "es-CO",
-                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
-
-        var expected = [
-            "resources/en/cppstrings.json","resources/en/GB/cppstrings.json",
-            "resources/en/AU/cppstrings.json","resources/es/CO/cppstrings.json",
-            "resources/es/cppstrings.json","resources/et/cppstrings.json",
-            "resources/fa/cppstrings.json","resources/fa/AF/cppstrings.json",
-            "resources/fr/cppstrings.json","resources/fr/CA/cppstrings.json",
-            "resources/zh/cppstrings.json","resources/zh/Hant/HK/cppstrings.json",
-            "resources/zh/Hant/TW/cppstrings.json"
-        ];
-        for (var i=0; i<locales.length;i++) {
-            jsrf = new JSONResourceFile({
-                project: p4,
                 locale: locales[i]
             });
             test.equal(jsrf.getResourceFilePath(), expected[i]);

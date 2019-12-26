@@ -265,7 +265,6 @@ JSONResourceFile.prototype.write = function() {
     }
 };
 
-
 /**
  * Write the manifest file to disk.
  */
