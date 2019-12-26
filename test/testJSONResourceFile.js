@@ -36,22 +36,24 @@ function diff(a, b) {
 }
 
 var p = new CustomProject({
-    id: "webos-web",
+    id: "webosApp",
+    projectType: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
-}, "./testfiles", {
-    locales:["en-GB"]
-});
+        }
+    }, "./testfiles", {
+        locales:["en-GB"]
+    });
 
 var p2 = new CustomProject({
-    id: "webos-web",
+    id: "webosApp",
+    projectType: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
-}, "./testfiles", {
+        }
+    }, "./testfiles", {
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -92,7 +94,7 @@ module.exports.jsonresourcefile = {
         [
             p.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -101,7 +103,7 @@ module.exports.jsonresourcefile = {
             }),
             p.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -110,7 +112,7 @@ module.exports.jsonresourcefile = {
             }),
             p.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -137,7 +139,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -146,7 +148,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -155,7 +157,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -202,7 +204,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -211,7 +213,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -243,7 +245,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -252,7 +254,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -286,7 +288,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -295,7 +297,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -304,7 +306,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -498,7 +500,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -507,7 +509,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -516,7 +518,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -546,7 +548,7 @@ module.exports.jsonresourcefile = {
         test.expect(2);
 
         var customP = new CustomProject({
-            id: "webos-web",
+            id: "webosApp",
             sourceLocale: "en-US",
             resourceDirs: {
                 "json": "localized_json"
@@ -564,27 +566,27 @@ module.exports.jsonresourcefile = {
         test.ok(jsrf);
 
         [
-            p2.getAPI().newResource({
+            customP.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "source text",
                 sourceLocale: "en-US",
                 source: "source text",
                 target: "Quellentext"
             }),
-            p2.getAPI().newResource({
+            customP.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "more source text",
                 sourceLocale: "en-US",
                 source: "more source text",
                 target: "mehr Quellentext"
             }),
-            p2.getAPI().newResource({
+            customP.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -623,7 +625,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-AT",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -632,7 +634,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-AT",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -641,7 +643,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-AT",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -680,7 +682,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-CN",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -689,7 +691,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-CN",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -698,7 +700,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-CN",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -737,7 +739,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-HK",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -746,7 +748,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-HK",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -755,7 +757,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-HK",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -794,7 +796,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-SG",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -803,7 +805,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-SG",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -812,7 +814,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hans-SG",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -851,7 +853,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-TW",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -860,7 +862,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-TW",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -869,7 +871,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "zh-Hant-TW",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -908,7 +910,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -917,7 +919,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -926,7 +928,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "yet more source text",
                 sourceLocale: "en-US",
@@ -965,7 +967,7 @@ module.exports.jsonresourcefile = {
         [
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "source text",
                 sourceLocale: "en-US",
@@ -974,7 +976,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "more source text",
                 sourceLocale: "en-US",
@@ -983,7 +985,7 @@ module.exports.jsonresourcefile = {
             }),
             p2.getAPI().newResource({
                 type: "string",
-                project: "webos-web",
+                project: "webosApp",
                 targetLocale: "de-DE-ASDF",
                 key: "yet more source text",
                 sourceLocale: "en-US",

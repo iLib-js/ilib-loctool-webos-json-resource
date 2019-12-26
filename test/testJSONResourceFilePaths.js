@@ -36,7 +36,8 @@ function diff(a, b) {
 }
 
 var p = new CustomProject({
-    id: "webos-web",
+    id: "webos-app",
+    projectType: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
@@ -46,7 +47,8 @@ var p = new CustomProject({
 });
 
 var p2 = new CustomProject({
-    id: "webos-web",
+    id: "webosApp",
+    projectType: "webos-web",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
@@ -57,7 +59,8 @@ var p2 = new CustomProject({
 });
 
 var p3 = new CustomProject({
-    id: "webos-c",
+    id: "webosApp",
+    projectType: "webos-c",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
@@ -70,7 +73,8 @@ var p3 = new CustomProject({
 });
 
 var p4 = new CustomProject({
-    id: "webos-cpp",
+    id: "webosApp",
+    projectType: "webos-cpp",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "resources"

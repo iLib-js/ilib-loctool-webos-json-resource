@@ -228,7 +228,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     var dir, newPath, localePath;
     var filename = "strings.json";
 
-    var projectType = this.project.options.id.split("-");
+    var projectType = this.project.options.projectType.split("-");
     if (projectType[1] === "c" || projectType[1] === "cpp") {
         filename = this.project.settings.resourceFileNames[projectType[1]];
     }
