@@ -4,8 +4,20 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 
+v1.2.0
+* Support various resourceOutput file name. It can be specified according to project type.
+    * If the project type is c or cpp program, it should be written in project configuration.
+        ~~~~
+        "settings": {
+            "locales": ["en-US", "ko-KR", "zh-Hans-CN"],
+            "resourceFileNames": {
+                "c": "cstrings.json",
+                "cpp": "cppstrings.json"
+            }
+        }
+        ~~~~
 v1.1.0
-* Generate `ilibmanifest.json file
+* Generate `ilibmanifest.json` file
     * Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
       It's implemented in projectClose()
 
