@@ -206,9 +206,7 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
     if (this.baseLocale) {
         fullPath = "/" + splitLocale[0];
     } else {
-        for (var i=0; i < splitLocale.length; i++) {
-            fullPath += "/" + splitLocale[i];
-        }
+        fullPath += "/" + splitLocale.join("/");
     }
     return fullPath;
 }
