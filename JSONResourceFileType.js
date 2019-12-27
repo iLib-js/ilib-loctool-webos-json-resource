@@ -27,7 +27,7 @@ var JSONResourceFile = require("./JSONResourceFile.js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
 
 /**
- * @class Manage a collection of Android resource files.
+ * @class Manage a collection of JSON resource files.
  *
  * @param {Project} project that this type is in
  */
@@ -60,7 +60,7 @@ JSONResourceFileType.prototype.handles = function(pathName) {
 };
 
 /**
- * Write out all resources for this file type. For JavaScript resources, each
+ * Write out all resources for this file type. For JSON resources, each
  * resource file is written out by itself. This method will
  * iterate through all of the resource files it knows about and cause them
  * each to write out.
@@ -105,7 +105,7 @@ JSONResourceFileType.prototype.newFile = function(pathName) {
  *
  * @param {String} locale the name of the locale in which the resource
  * file will reside
- * @return {JavaScriptResourceFile} the Android resource file that serves the
+ * @return {JSONResourceFile} the JSON resource file that serves the
  * given project, context, and locale.
  */
 JSONResourceFileType.prototype.getResourceFile = function(locale) {
@@ -123,7 +123,6 @@ JSONResourceFileType.prototype.getResourceFile = function(locale) {
 
     return resfile;
 };
-
 
 /**
  * Ensure that all resources collected so far have a pseudo translation.
@@ -163,7 +162,6 @@ JSONResourceFileType.prototype.getResourceTypes = function() {
 JSONResourceFileType.prototype.getExtensions = function() {
     return this.extensions;
 };
-
 
 /**
  * Add the contents of the given translation set to the extracted resources

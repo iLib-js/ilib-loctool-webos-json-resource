@@ -25,7 +25,7 @@ var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
- * @class Represents an Android resource file.
+ * @class Represents an JSON resource file.
  * The props may contain any of the following properties:
  *
  * <ul>
@@ -38,18 +38,15 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  */
 var JSONResourceFile = function(props) {
     var lanDefaultLocale, propsLocale;
-    this.locale = new Locale();
-    this.baseLocale = false;
 
-    if (props) {
-        this.project = props.project;
-        this.locale = new Locale(props.locale);
-        this.API = props.project.getAPI();
+    this.project = props.project;
+    this.locale = new Locale(props.locale);
+    this.API = props.project.getAPI();
 
-        langDefaultLocale = new LocaleMatcher({locale: this.locale.language});
-        propsLocale = new LocaleMatcher({locale: this.locale});
-        this.baseLocale = langDefaultLocale.getLikelyLocale().getSpec() === propsLocale.getLikelyLocale().getSpec();
-    }
+    this.minimalLocale = new LocaleMatcher({locale: props.locale}).getLikelyLocaleMinimal().getSpec();
+    langDefaultLocale = new LocaleMatcher({locale: this.locale.language}).getLikelyLocaleMinimal().getSpec();
+
+    this.baseLocale = langDefaultLocale === this.minimalLocale;
 
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
 };
@@ -60,7 +57,7 @@ var JSONResourceFile = function(props) {
 JSONResourceFile.prototype.extract = function() {};
 
 /**
- * Get the locale of this resource file. For Android resource files, this
+ * Get the locale of this resource file. For JSON resource files, this
  * can be extracted automatically based on the name of the directory
  * that the file is in.
  *
@@ -71,7 +68,7 @@ JSONResourceFile.prototype.getLocale = function() {
 };
 
 /**
- * Get the locale of this resource file. For Android resource files, this
+ * Get the locale of this resource file. For JSON resource files, this
  * can be extracted automatically based on the name of the directory
  * that the file is in.
  *
@@ -203,25 +200,15 @@ JSONResourceFile.prototype.getContent = function() {
  * @private
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
-    var path = "";
-    var language = locale.language;
-    var script = locale.script;
-    var region = locale.region;
+    var fullPath = "";
+    var splitLocale = this.locale.getSpec().split("-");
 
-
-    if (language) {
-        path += language + "/";
-        if (this.baseLocale) {
-            return path;
-        }
+    if (this.baseLocale) {
+        fullPath = "/" + splitLocale[0];
+    } else {
+        fullPath += "/" + splitLocale.join("/");
     }
-    if (script) {
-        path += script + "/";
-    }
-    if (region) {
-        path += region + "/";
-    }
-    return path;
+    return fullPath;
 }
 
 /**
@@ -235,12 +222,16 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
  * given project, context, and locale.
  */
 JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
-    var localeDir, dir, newPath, spec, localePath;
     locale = locale || this.locale;
-
-    var defaultSpec = this.getDefaultSpec();
-    localePath = this._calcLocalePath(locale);
+    var dir, newPath, localePath;
     var filename = "strings.json";
+
+    var projectType = this.project.options.projectType.split("-");
+    if (projectType[1] === "c" || projectType[1] === "cpp") {
+        filename = this.project.settings.resourceFileNames[projectType[1]];
+    }
+
+    localePath = this._calcLocalePath(locale);
 
     dir = this.project.getResourceDirs("json")[0] || ".";
     newPath = path.join(dir, localePath, filename);
@@ -271,7 +262,6 @@ JSONResourceFile.prototype.write = function() {
         logger.debug("File " + this.pathName + " is not dirty. Skipping.");
     }
 };
-
 
 /**
  * Write the manifest file to disk.
@@ -309,7 +299,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 };
 
 /**
- * Return the set of resources found in the current Android
+ * Return the set of resources found in the current JSON
  * resource file.
  *
  * @returns {TranslationSet} The set of resources found in the
