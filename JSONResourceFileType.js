@@ -202,16 +202,8 @@ JSONResourceFileType.prototype.getPseudo = function() {
  * Generate manifest file based on created resource files
  */
 JSONResourceFileType.prototype.projectClose = function() {
-    var resourcePathInfo = [], manifestContents = {};
     var resourceRoot = this.project.getResourceDirs("json")[0] || "resources";
     var manifestFile = new JSONResourceFile({project: this.project});
-
-    for (var hash in this.resourceFiles) {
-        path = this.resourceFiles[hash].pathName.replace(resourceRoot + "/","");
-        resourcePathInfo.push(path);
-    }
-
-    manifestContents.files = resourcePathInfo;
-    manifestFile.writeManifest(resourceRoot, manifestContents);
+    manifestFile.writeManifest(resourceRoot);
 };
 module.exports = JSONResourceFileType;
