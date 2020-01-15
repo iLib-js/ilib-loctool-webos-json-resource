@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright © 2019, JEDLSoft
+ * Copyright © 2019-2020, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
