@@ -38,7 +38,6 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  */
 var JSONResourceFile = function(props) {
     var lanDefaultLocale, propsLocale;
-
     this.project = props.project;
     this.locale = new Locale(props.locale);
     this.API = props.project.getAPI();
@@ -47,7 +46,6 @@ var JSONResourceFile = function(props) {
     langDefaultLocale = new LocaleMatcher({locale: this.locale.language}).getLikelyLocaleMinimal().getSpec();
 
     this.baseLocale = langDefaultLocale === this.minimalLocale;
-
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
 };
 
@@ -292,7 +290,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     walk(filePath, "");
     for (var i=0; i < manifest.files.length; i++) {
-        console.log("list: ", manifest.files[i]);
+        logger.info("Generated file:", manifest.files[i]);
     }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
     fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');
