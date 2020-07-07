@@ -22,6 +22,7 @@ var path = require("path");
 var log4js = require("log4js");
 var JSONResourceFile = require("./JSONResourceFile.js");
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
+log4js.configure(path.dirname(module.filename) + '/log4js.json');
 
 /**
  * @class Manage a collection of JSON resource files.

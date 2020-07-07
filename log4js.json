@@ -1,0 +1,25 @@
+{
+    "appenders": {
+        "default": { 
+            "type": "console",
+            "layout": {
+                "type": "pattern",
+                "pattern": "%r %p %c: %m"
+            }
+        }
+    },
+    "categories": {
+		"default": {
+			"appenders": [ "default" ],
+			"level": "info"
+		},
+        "loctool.plugin.JSONResourceFile": {
+			"appenders": [ "default" ],
+			"level": "info"
+		},
+		"loctool.plugin.JSONResourceFileType": {
+			"appenders": [ "default" ],
+			"level": "info"
+		}
+    }
+}

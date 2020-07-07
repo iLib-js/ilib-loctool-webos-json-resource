@@ -22,6 +22,7 @@ var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
 var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
 var log4js = require("log4js");
+log4js.configure(path.dirname(module.filename) + '/log4js.json');
 var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
@@ -265,7 +266,7 @@ JSONResourceFile.prototype.write = function() {
  * Write the manifest file to disk.
  */
 JSONResourceFile.prototype.writeManifest = function(filePath) {
-    logger.info("writing ilibmanifest.json file");
+    logger.info("writing ilibmanifest.json");
     var manifest = {
         files: []
     };
@@ -290,7 +291,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     walk(filePath, "");
     for (var i=0; i < manifest.files.length; i++) {
-        logger.info("Generated file:", manifest.files[i]);
+        logger.info("writing", manifest.files[i]);
     }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
     fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');
