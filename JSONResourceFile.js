@@ -266,7 +266,6 @@ JSONResourceFile.prototype.write = function() {
  * Write the manifest file to disk.
  */
 JSONResourceFile.prototype.writeManifest = function(filePath) {
-    logger.info("writing ilibmanifest.json");
     var manifest = {
         files: []
     };
@@ -291,7 +290,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     walk(filePath, "");
     for (var i=0; i < manifest.files.length; i++) {
-        logger.info("writing", manifest.files[i]);
+        logger.info("writing", path.join(filePath, manifest.files[i]));
     }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
     fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');
