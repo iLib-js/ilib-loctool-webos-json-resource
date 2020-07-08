@@ -1,6 +1,6 @@
 {
     "appenders": {
-        "default": { 
+        "default": {
             "type": "console",
             "layout": {
                 "type": "pattern",
@@ -9,17 +9,23 @@
         }
     },
     "categories": {
-		"default": {
-			"appenders": [ "default" ],
-			"level": "info"
-		},
+        "default": {
+            "appenders": [
+                "default"
+            ],
+            "level": "info"
+        },
         "loctool.plugin.JSONResourceFile": {
-			"appenders": [ "default" ],
-			"level": "info"
-		},
-		"loctool.plugin.JSONResourceFileType": {
-			"appenders": [ "default" ],
-			"level": "info"
-		}
+            "appenders": [
+                "default"
+            ],
+            "level": "info"
+        },
+        "loctool.plugin.JSONResourceFileType": {
+            "appenders": [
+                "default"
+            ],
+            "level": "info"
+        }
     }
 }
