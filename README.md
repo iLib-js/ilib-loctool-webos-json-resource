@@ -8,7 +8,6 @@ v1.3.0
 * Fixed resource target path for the output to go to the project's target location properly.
 * Updated code to print log with log4js.
 
-
 v1.2.0
 * Support various resourceOutput file name. It can be specified according to project type.
     * If the project type is c or cpp program, it should be written in project configuration.
