@@ -21,7 +21,7 @@
     ],
     "author": {
         "name": "Goun Lee",
-        "email": "goun.lee.com"
+        "email": "goun.lee@lge.com"
     },
     "contributors": [
         {
@@ -32,6 +32,7 @@
     "files": [
         "README.md",
         "LICENSE",
+        "log4js.json",
         "JSONResourceFileType.js",
         "JSONResourceFile.js"
     ],
