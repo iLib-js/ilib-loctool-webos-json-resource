@@ -223,7 +223,11 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
 JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     locale = locale || this.locale;
     var dir, newPath, localePath;
-    var filename = this.project.settings.resourceFileNames["json"] || "strings.json";
+    var filename = "strings.json";
+
+    if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
+        filename = this.project.settings.resourceFileNames["json"];
+    }
 
     var projectType = this.project.options.projectType.split("-");
     if (projectType[1] === "c" || projectType[1] === "cpp") {
