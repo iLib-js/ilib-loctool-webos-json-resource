@@ -38,7 +38,7 @@ var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
-    var lanDefaultLocale, propsLocale;
+    var langDefaultLocale;
     this.project = props.project;
     this.locale = new Locale(props.locale);
     this.API = props.project.getAPI();
@@ -225,6 +225,10 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     var dir, newPath, localePath;
     var filename = "strings.json";
 
+    if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
+        filename = this.project.settings.resourceFileNames["json"];
+    }
+
     var projectType = this.project.options.projectType.split("-");
     if (projectType[1] === "c" || projectType[1] === "cpp") {
         filename = this.project.settings.resourceFileNames[projectType[1]];
@@ -232,7 +236,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
 
     localePath = this._calcLocalePath(locale);
 
-    dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || ".");
+    dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
     newPath = path.join(dir, localePath, filename);
 
     logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
