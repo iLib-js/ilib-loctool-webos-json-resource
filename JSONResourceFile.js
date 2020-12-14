@@ -199,11 +199,14 @@ JSONResourceFile.prototype.getContent = function() {
  * @private
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
-    var fullPath = "";
+    var rootLocale = "en-US";
     var splitLocale = this.locale.getSpec().split("-");
+    var fullPath = "";
 
     if (this.baseLocale) {
-        fullPath = "/" + splitLocale[0];
+        if (this.locale.getSpec() !== rootLocale) {
+            fullPath = "/" + splitLocale[0];
+        }
     } else {
         fullPath += "/" + splitLocale.join("/");
     }

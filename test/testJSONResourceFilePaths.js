@@ -190,7 +190,7 @@ module.exports.jsonresourcefilepath = {
             "testfiles/localized_json/en/TW/strings.json",
             "testfiles/localized_json/en/TZ/strings.json",
             "testfiles/localized_json/en/UG/strings.json",
-            "testfiles/localized_json/en/strings.json",
+            "testfiles/localized_json/strings.json",
             "testfiles/localized_json/en/ZA/strings.json",
             "testfiles/localized_json/en/ZM/strings.json",
             "testfiles/localized_json/es/AR/strings.json",
@@ -354,7 +354,7 @@ module.exports.jsonresourcefilepath = {
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
 
         var expected = [
-            "testfiles/localized_json/en/cstrings.json","testfiles/localized_json/en/GB/cstrings.json",
+            "testfiles/localized_json/cstrings.json","testfiles/localized_json/en/GB/cstrings.json",
             "testfiles/localized_json/en/AU/cstrings.json","testfiles/localized_json/es/CO/cstrings.json",
             "testfiles/localized_json/es/cstrings.json","testfiles/localized_json/et/cstrings.json",
             "testfiles/localized_json/fa/cstrings.json","testfiles/localized_json/fa/AF/cstrings.json",
@@ -378,7 +378,7 @@ module.exports.jsonresourcefilepath = {
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
 
         var expected = [
-            "testfiles/resources/en/cppstrings.json","testfiles/resources/en/GB/cppstrings.json",
+            "testfiles/resources/cppstrings.json","testfiles/resources/en/GB/cppstrings.json",
             "testfiles/resources/en/AU/cppstrings.json","testfiles/resources/es/CO/cppstrings.json",
             "testfiles/resources/es/cppstrings.json","testfiles/resources/et/cppstrings.json",
             "testfiles/resources/fa/cppstrings.json","testfiles/resources/fa/AF/cppstrings.json",

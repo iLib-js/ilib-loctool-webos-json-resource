@@ -470,7 +470,7 @@ module.exports.jsonresourcefile = {
         });
 
         test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/en/strings.json");
+        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/strings.json");
         test.done();
     },
 
@@ -1017,7 +1017,7 @@ module.exports.jsonresourcefile = {
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
 
         var expected = [
-            "testfiles/localized_json/en/strings.json","testfiles/localized_json/en/GB/strings.json",
+            "testfiles/localized_json/strings.json","testfiles/localized_json/en/GB/strings.json",
             "testfiles/localized_json/en/AU/strings.json","testfiles/localized_json/es/CO/strings.json",
             "testfiles/localized_json/es/strings.json","testfiles/localized_json/et/strings.json",
             "testfiles/localized_json/fa/strings.json","testfiles/localized_json/fa/AF/strings.json",
