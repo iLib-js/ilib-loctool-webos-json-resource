@@ -262,8 +262,10 @@ JSONResourceFile.prototype.write = function() {
         this.API.utils.makeDirs(dir);
 
         var js = this.getContent();
-        fs.writeFileSync(this.pathName, js, "utf8");
-        logger.debug("Wrote string translations to file " + this.pathName);
+        if (js !== "{}") {
+            logger.debug("Wrote string translations to file " + this.pathName);
+            fs.writeFileSync(this.pathName, js, "utf8");
+        }
     } else {
         logger.debug("File " + this.pathName + " is not dirty. Skipping.");
     }
