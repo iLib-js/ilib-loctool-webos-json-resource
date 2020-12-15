@@ -199,11 +199,14 @@ JSONResourceFile.prototype.getContent = function() {
  * @private
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
-    var fullPath = "";
+    var rootLocale = "en-US";
     var splitLocale = this.locale.getSpec().split("-");
+    var fullPath = "";
 
     if (this.baseLocale) {
-        fullPath = "/" + splitLocale[0];
+        if (this.locale.getSpec() !== rootLocale) {
+            fullPath = "/" + splitLocale[0];
+        }
     } else {
         fullPath += "/" + splitLocale.join("/");
     }
@@ -259,8 +262,10 @@ JSONResourceFile.prototype.write = function() {
         this.API.utils.makeDirs(dir);
 
         var js = this.getContent();
-        fs.writeFileSync(this.pathName, js, "utf8");
-        logger.debug("Wrote string translations to file " + this.pathName);
+        if (js !== "{}") {
+            logger.debug("Wrote string translations to file " + this.pathName);
+            fs.writeFileSync(this.pathName, js, "utf8");
+        }
     } else {
         logger.debug("File " + this.pathName + " is not dirty. Skipping.");
     }
