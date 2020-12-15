@@ -12,7 +12,5 @@ install:
 script:
   - npm run clean
   - npm run test
-branches:
-  only:
-    - master
+if: branch = master
 dist: trusty
