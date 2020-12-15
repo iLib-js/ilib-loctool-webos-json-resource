@@ -4,8 +4,9 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 v1.3.3
-* Changed en-US translation data to be located in the resource root directory
+* Changed en-US translation data to be located in the resource root directory.
 * Fixed not to generate resource file when the content is empty.
+* Fixed to generate `ilibmanifest.json` file properly in the nested project localization case.
 
 v1.3.2
 * Changed the default Resource output directory to `resources`
