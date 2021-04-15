@@ -82,16 +82,16 @@ JSONResourceFileType.prototype.name = function() {
  * @return {JSONResourceFile} a resource file instance for the
  * given path
  */
-JSONResourceFileType.prototype.newFile = function(pathName) {
+JSONResourceFileType.prototype.newFile = function(pathName, options) {
     var file = new JSONResourceFile({
         project: this.project,
         pathName: pathName,
+        locale: options.locale || this.project.sourceLocale,
         type: this,
         API: this.API
     });
 
-    var locale = file.getLocale() || this.project.sourceLocale;
-
+    var locale = file.getLocale();
     this.resourceFiles[locale] = file;
     return file;
 };
