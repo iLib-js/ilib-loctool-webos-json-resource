@@ -231,10 +231,11 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
         filename = this.project.settings.resourceFileNames["json"];
     }
-
-    var projectType = this.project.options.projectType.split("-");
-    if (projectType[1] === "c" || projectType[1] === "cpp") {
-        filename = this.project.settings.resourceFileNames[projectType[1]];
+    if (this.project.options.projectType) {
+        var projectType = this.project.options.projectType.split("-");
+        if (projectType[1] === "c" || projectType[1] === "cpp") {
+            filename = this.project.settings.resourceFileNames[projectType[1]];
+        }
     }
 
     localePath = this._calcLocalePath(locale);
