@@ -5,6 +5,7 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 ## Release Notes
 v1.3.6
 * Fixed `newFile()` to get locale parameter for convert feature
+* Update dependent module version to have the latest one.(loctool: 2.12.0)
 
 v1.3.5
 * Update dependent module version to have the latest one.(loctool: 2.10.3)
