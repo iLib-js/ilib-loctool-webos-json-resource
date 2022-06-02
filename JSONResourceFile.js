@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,6 @@ var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
 var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
-var log4js = require("log4js");
-log4js.configure(path.dirname(module.filename) + '/log4js.json');
-var logger = log4js.getLogger("loctool.plugin.JSONResourceFile");
 
 /**
  * @class Represents an JSON resource file.
@@ -42,7 +39,7 @@ var JSONResourceFile = function(props) {
     this.project = props.project;
     this.locale = new Locale(props.locale);
     this.API = props.project.getAPI();
-
+    this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFile");
     this.minimalLocale = new LocaleMatcher({locale: props.locale}).getLikelyLocaleMinimal().getSpec();
     langDefaultLocale = new LocaleMatcher({locale: this.locale.language}).getLikelyLocaleMinimal().getSpec();
 
@@ -96,20 +93,20 @@ JSONResourceFile.prototype.getAll = function() {
  * @param {Resource} res a resource to add to this file
  */
 JSONResourceFile.prototype.addResource = function(res) {
-    logger.trace("JSONResourceFile.addResource: " + JSON.stringify(res) + " to " + this.project.getProjectId() + ", " + this.locale + ", " + JSON.stringify(this.context));
+    this.logger.trace("JSONResourceFile.addResource: " + JSON.stringify(res) + " to " + this.project.getProjectId() + ", " + this.locale + ", " + JSON.stringify(this.context));
     var resLocale = res.getTargetLocale() || res.getSourceLocale();
     if (res && res.getProject() === this.project.getProjectId() && resLocale === this.locale.getSpec()) {
-        logger.trace("correct project, context, and locale. Adding.");
+        this.logger.trace("correct project, context, and locale. Adding.");
         this.set.add(res);
     } else {
         if (res) {
             if (res.getProject() !== this.project.getProjectId()) {
-                logger.warn("Attempt to add a resource to a resource file with the incorrect project.");
+                this.logger.warn("Attempt to add a resource to a resource file with the incorrect project.");
             } else {
-                logger.warn("Attempt to add a resource to a resource file with the incorrect locale. " + resLocale + " vs. " + this.locale.getSpec());
+                this.logger.warn("Attempt to add a resource to a resource file with the incorrect locale. " + resLocale + " vs. " + this.locale.getSpec());
             }
         } else {
-            logger.warn("Attempt to add an undefined resource to a resource file.");
+            this.logger.warn("Attempt to add an undefined resource to a resource file.");
         }
     }
 };
@@ -167,15 +164,15 @@ JSONResourceFile.prototype.getContent = function() {
             var resource = resources[j];
             if (resource.getSource() && resource.getTarget()) {
                 if (clean(resource.getSource()) !== clean(resource.getTarget())) {
-                    logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
+                    this.logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
                     json[resource.getKey()] = this.project.settings.identify ?
                         '<span loclang="javascript" locid="' + resource.getKey() + '">' + resource.getTarget() + '</span>' :
                         resource.getTarget();
                 } else {
-                    logger.trace("skipping translation with no change");
+                    this.logger.trace("skipping translation with no change");
                 }
             } else {
-                logger.warn("String resource " + resource.getKey() + " has no source text. Skipping...");
+                this.logger.warn("String resource " + resource.getKey() + " has no source text. Skipping...");
             }
         }
     }
@@ -243,7 +240,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
     newPath = path.join(dir, localePath, filename);
 
-    logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
+    this.logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
     return newPath;
 };
 
@@ -251,7 +248,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
  * Write the resource file out to disk again.
  */
 JSONResourceFile.prototype.write = function() {
-    logger.trace("writing resource file. [" + this.project.getProjectId() + "," + this.locale + "]");
+    this.logger.trace("writing resource file. [" + this.project.getProjectId() + "," + this.locale + "]");
     if (this.set.isDirty()) {
         this.defaultSpec = this.locale.getSpec();
 
@@ -264,11 +261,11 @@ JSONResourceFile.prototype.write = function() {
 
         var js = this.getContent();
         if (js !== "{}") {
-            logger.debug("Wrote string translations to file " + this.pathName);
+            this.logger.debug("Wrote string translations to file " + this.pathName);
             fs.writeFileSync(this.pathName, js, "utf8");
         }
     } else {
-        logger.debug("File " + this.pathName + " is not dirty. Skipping.");
+        this.logger.debug("File " + this.pathName + " is not dirty. Skipping.");
     }
 };
 
@@ -300,7 +297,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     walk(filePath, "");
     for (var i=0; i < manifest.files.length; i++) {
-        logger.info("Writing out", path.join(filePath, manifest.files[i]) + " to Manifest file");
+        this.logger.info("Writing out", path.join(filePath, manifest.files[i]) + " to Manifest file");
     }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
     fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');

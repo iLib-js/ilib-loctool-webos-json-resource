@@ -1,7 +1,7 @@
 /*
  * JSONResourceFileType.js - Represents a collection of JSON files
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,8 @@
  * limitations under the License.
  */
 
-var fs = require("fs");
 var path = require("path");
-var log4js = require("log4js");
 var JSONResourceFile = require("./JSONResourceFile.js");
-var logger = log4js.getLogger("loctool.plugin.JSONResourceFileType");
-log4js.configure(path.dirname(module.filename) + '/log4js.json');
 
 /**
  * @class Manage a collection of JSON resource files.
@@ -37,6 +33,7 @@ var JSONResourceFileType = function(project) {
     this.resourceFiles = {};
     
     this.API = project.getAPI();
+    this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFileType");
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
@@ -51,8 +48,8 @@ var JSONResourceFileType = function(project) {
  */
 JSONResourceFileType.prototype.handles = function(pathName) {
     // json resource files are only generated. Existing ones are never read in.
-    logger.debug("JSONResourceFileType handles " + pathName + "?");
-    logger.debug("No");
+    this.logger.debug("JSONResourceFileType handles " + pathName + "?");
+    this.logger.debug("No");
     return false;
 };
 
@@ -63,7 +60,7 @@ JSONResourceFileType.prototype.handles = function(pathName) {
  * each to write out.
  */
 JSONResourceFileType.prototype.write = function() {
-    logger.trace("Now writing out " + Object.keys(this.resourceFiles).length + " resource files");
+    this.logger.trace("Now writing out " + Object.keys(this.resourceFiles).length + " resource files");
     for (var hash in this.resourceFiles) {
         var file = this.resourceFiles[hash];
         file.write();
@@ -115,7 +112,7 @@ JSONResourceFileType.prototype.getResourceFile = function(locale) {
             locale: key
         });
 
-        logger.trace("Defining new resource file");
+        this.logger.trace("Defining new resource file");
     }
 
     return resfile;
