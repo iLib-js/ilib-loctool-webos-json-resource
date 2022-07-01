@@ -62,7 +62,6 @@ JSONResourceFile.prototype.extract = function() {};
 JSONResourceFile.prototype.getLocale = function() {
     return this.locale;
 };
-
 /**
  * Get the locale of this resource file. For JSON resource files, this
  * can be extracted automatically based on the name of the directory
@@ -256,12 +255,11 @@ JSONResourceFile.prototype.write = function() {
             this.pathName = this.getResourceFilePath();
         }
 
-        dir = path.dirname(this.pathName);
-        this.API.utils.makeDirs(dir);
-
         var js = this.getContent();
         if (js !== "{}") {
             this.logger.debug("Wrote string translations to file " + this.pathName);
+            dir = path.dirname(this.pathName);
+            this.API.utils.makeDirs(dir);
             fs.writeFileSync(this.pathName, js, "utf8");
         }
     } else {

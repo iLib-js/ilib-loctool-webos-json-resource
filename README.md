@@ -7,6 +7,7 @@ v1.3.10
 * updated dependencies
 * Use the logger provided by the loctool instead of using log4js directly.
 * Add node 16 version testing for circleCI (minimum version of node is v10)
+* Fix not to generate empty directory if content is empty even locale is in target list.
 
 v1.3.9
 * Update dependent module version to have the latest one.(loctool: 2.16.2)
