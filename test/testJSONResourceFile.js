@@ -1,7 +1,7 @@
 /*
  * testJSONResourceFile.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+var fs = require("fs");
+var path = require("path");
 
 if (!JSONResourceFile) {
     var JSONResourceFile = require("../JSONResourceFile.js");
@@ -1032,6 +1035,39 @@ module.exports.jsonresourcefile = {
             });
             test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
+        test.done();
+    },
+    testJSONResourceFileWriteSameTranslation: function(test) {
+        test.expect(4);
+
+        var jsrf = new JSONResourceFile({
+            project: p,
+            locale: "en-GB"
+        });
+
+        test.ok(jsrf);
+        test.ok(!jsrf.isDirty());
+
+        [
+            p.getAPI().newResource({
+                type: "string",
+                project: "webosApp",
+                targetLocale: "en-GB",
+                key: "yet more source text",
+                sourceLocale: "en-US",
+                source: "yet more source text",
+                target: "yet more source text"
+            })
+        ].forEach(function(res) {
+            jsrf.addResource(res);
+        });
+
+        jsrf.write();
+
+        var filePath = jsrf.getResourceFilePath();
+        var dir = path.dirname(filePath);
+        test.ok(!fs.existsSync(dir));
+        test.ok(jsrf.isDirty());
         test.done();
     }
 };
