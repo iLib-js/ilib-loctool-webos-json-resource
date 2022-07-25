@@ -4,29 +4,29 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 v1.3.10
-* updated dependencies
-* Use the logger provided by the loctool instead of using log4js directly.
-* Add node 16 version testing for circleCI (minimum version of node is v10)
-* Fix not to generate empty directory if content is empty even locale is in target list.
+* Updated dependencies. (loctool: 2.16.3)
+* Used the logger provided by the loctool instead of using log4js directly.
+* Added node 16 version testing for circleCI, (minimum version of node is v10.0.0)
+* Fixed not to generate empty directory if content is empty even locale is in target list.
 
 v1.3.9
-* Update dependent module version to have the latest one.(loctool: 2.16.2)
+* Updated dependent module version to have the latest one.(loctool: 2.16.2)
 
 v1.3.8
-* Update dependent module version to have the latest one.(loctool: 2.14.1)
+* Updated dependent module version to have the latest one.(loctool: 2.14.1)
 
 v1.3.7
-* Update dependent module version to have the latest one.(loctool: 2.13.0)
+* Updated dependent module version to have the latest one.(loctool: 2.13.0)
 
 v1.3.6
 * Fixed `newFile()` to get locale parameter for convert feature
-* Update dependent module version to have the latest one.(loctool: 2.12.0)
+* Updated dependent module version to have the latest one.(loctool: 2.12.0)
 
 v1.3.5
-* Update dependent module version to have the latest one.(loctool: 2.10.3)
+* Updated dependent module version to have the latest one.(loctool: 2.10.3)
 
 v1.3.4
-* Update dependent module version to have the latest one.
+* Updated dependent module version to have the latest one.
 
 v1.3.3
 * Changed en-US translation data to be located in the resource root directory.
