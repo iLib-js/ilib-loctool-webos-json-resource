@@ -6,8 +6,8 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 v1.3.11
 * Updated dependencies. (loctool: 2.17.0)
 * Removed source and target comparison code when generating resources.
-  *  en(en-US) (source: Programme , target: Channel)
-  *  en/GB (source: Programme , target: Programme)
+  *  en(en-US) (source: Programme, target: Channel)
+  *  en/GB (source: Programme, target: Programme)
 
 v1.3.10
 * Updated dependencies. (loctool: 2.16.3)
