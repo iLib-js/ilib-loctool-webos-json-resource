@@ -1066,7 +1066,7 @@ module.exports.jsonresourcefile = {
 
         var filePath = jsrf.getResourceFilePath();
         var dir = path.dirname(filePath);
-        test.ok(!fs.existsSync(dir));
+        test.ok(fs.existsSync(dir));
         test.ok(jsrf.isDirty());
         test.done();
     }
