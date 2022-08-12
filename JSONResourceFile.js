@@ -20,7 +20,7 @@
 var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
-var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
+var Utils = require("loctool/lib/utils.js");
 
 /**
  * @class Represents an JSON resource file.
@@ -35,15 +35,12 @@ var LocaleMatcher = require("ilib/lib/LocaleMatcher.js");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
-    var langDefaultLocale;
     this.project = props.project;
     this.locale = new Locale(props.locale);
     this.API = props.project.getAPI();
     this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFile");
-    this.minimalLocale = new LocaleMatcher({locale: props.locale}).getLikelyLocaleMinimal().getSpec();
-    langDefaultLocale = new LocaleMatcher({locale: this.locale.language}).getLikelyLocaleMinimal().getSpec();
 
-    this.baseLocale = langDefaultLocale === this.minimalLocale;
+    this.baseLocale = Utils.isBaseLocale(this.locale.getSpec());
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
 };
 
@@ -162,14 +159,10 @@ JSONResourceFile.prototype.getContent = function() {
         for (var j = 0; j < resources.length; j++) {
             var resource = resources[j];
             if (resource.getSource() && resource.getTarget()) {
-                if (clean(resource.getSource()) !== clean(resource.getTarget())) {
-                    this.logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
-                    json[resource.getKey()] = this.project.settings.identify ?
-                        '<span loclang="javascript" locid="' + resource.getKey() + '">' + resource.getTarget() + '</span>' :
-                        resource.getTarget();
-                } else {
-                    this.logger.trace("skipping translation with no change");
-                }
+                this.logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
+                json[resource.getKey()] = this.project.settings.identify ?
+                    '<span loclang="javascript" locid="' + resource.getKey() + '">' + resource.getTarget() + '</span>' :
+                    resource.getTarget();
             } else {
                 this.logger.warn("String resource " + resource.getKey() + " has no source text. Skipping...");
             }
