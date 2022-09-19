@@ -145,7 +145,7 @@ module.exports.jsonresourcefilepath = {
             "testfiles/localized_json/as/strings.json",
             "testfiles/localized_json/az/strings.json",
             "testfiles/localized_json/bg/strings.json",
-            "testfiles/localized_json/bn/strings.json",
+            "testfiles/localized_json/bn/IN/strings.json",
             "testfiles/localized_json/bs/strings.json",
             "testfiles/localized_json/bs/Latn/ME/strings.json",
             "testfiles/localized_json/cs/strings.json",
