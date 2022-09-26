@@ -39,7 +39,9 @@ var JSONResourceFile = function(props) {
     this.locale = new Locale(props.locale);
     this.API = props.project.getAPI();
     this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFile");
-
+    if (this.project.localeMap) {
+        Utils.setBaseLocale(this.project.localeMap);
+    }
     this.baseLocale = Utils.isBaseLocale(this.locale.getSpec());
     this.set = this.API.newTranslationSet(this.project && this.project.sourceLocale || "en-US");
 };

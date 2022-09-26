@@ -1,7 +1,7 @@
 /*
  * testJSONResourceFile.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,6 +83,19 @@ var p4 = new CustomProject({
     identify: true,
     resourceFileNames: {
       "cpp": "cppstrings.json"
+    }
+});
+
+var p5 = new CustomProject({
+    id: "webosApp",
+    projectType: "webos-web",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "resources"
+    }
+}, "./testfiles", {
+    localeMap: {
+        "es-CO": "es"
     }
 });
 
@@ -390,6 +403,28 @@ module.exports.jsonresourcefilepath = {
         for (var i=0; i<locales.length;i++) {
             jsrf = new JSONResourceFile({
                 project: p4,
+                locale: locales[i]
+            });
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
+        }
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePathsOverride: function(test) {
+        test.expect(5);
+        var jsrf;
+        
+        var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
+        
+        var expected = [
+            "testfiles/resources/en/GB/strings.json",
+            "testfiles/resources/de/strings.json",
+            "testfiles/resources/de/AT/strings.json",
+            "testfiles/resources/es/strings.json",
+            "testfiles/resources/es/ES/strings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p5,
                 locale: locales[i]
             });
             test.equal(jsrf.getResourceFilePath(), expected[i]);
