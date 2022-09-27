@@ -430,5 +430,19 @@ module.exports.jsonresourcefilepath = {
             test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
         test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths_ko_US: function(test) {
+        test.expect(1);
+        var jsrf;
+        var locale = "ko-US";
+        var expected = "testfiles/localized_json/ko/US/strings.json";
+        
+        jsrf = new JSONResourceFile({
+            project: p2,
+            locale: locale
+        });
+        test.equal(jsrf.getResourceFilePath(), expected);
+        
+        test.done();
     }
 };
