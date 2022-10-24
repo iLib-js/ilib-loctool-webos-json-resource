@@ -4,7 +4,8 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 v1.4.0
-* Added ability to override language default locale
+* Updated dependencies. (loctool: 2.18.0)
+* Added ability to override language default locale.
 
 v1.3.11
 * Updated dependencies. (loctool: 2.17.0)
