@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2023, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -289,11 +289,14 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     }
 
     walk(filePath, "");
-    for (var i=0; i < manifest.files.length; i++) {
-        this.logger.info("Writing out", path.join(filePath, manifest.files[i]) + " to Manifest file");
-    }
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
-    fs.writeFileSync(manifestFilePath, JSON.stringify(manifest), 'utf8');
+    if (!fs.existsSync(manifestFilePath) && manifest.files.length > 0) {
+        for (var i=0; i < manifest.files.length; i++) {
+            this.logger.info("Writing out", path.join(filePath, manifest.files[i]) + " to Manifest file");
+        }
+        manifest["l10n_timestamp"] = new Date().getTime().toString();
+        fs.writeFileSync(manifestFilePath, JSON.stringify(manifest, undefined, 4), 'utf8');
+    }
 };
 
 /**
