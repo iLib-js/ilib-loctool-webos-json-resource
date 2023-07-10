@@ -4,6 +4,7 @@ allows it to read and localize JSON resource files. This plugins is optimized fo
 
 ## Release Notes
 v1.5.1
+* Updated dependencies. (loctool: 2.21.0)
 * Fixed to generate `ilibmanifest.json` file correctly even when a dummy file exists.
 
 v1.5.0
