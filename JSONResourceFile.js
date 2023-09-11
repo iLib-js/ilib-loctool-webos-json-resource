@@ -191,15 +191,15 @@ JSONResourceFile.prototype.getContent = function() {
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
     var rootLocale = "en-US";
-    var splitLocale = this.locale.getSpec().split("-");
+    var lo = new Locale(locale);
     var fullPath = "";
 
     if (this.baseLocale) {
         if (this.locale.getSpec() !== rootLocale) {
-            fullPath = "/" + splitLocale[0];
+            fullPath = "/" + lo.getLanguage();
         }
     } else {
-        fullPath += "/" + splitLocale.join("/");
+        fullPath += "/" + locale.getSpec().replaceAll("-", "/");
     }
     return fullPath;
 }
