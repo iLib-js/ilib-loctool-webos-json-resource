@@ -199,7 +199,14 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
             fullPath = "/" + lo.getLanguage();
         }
     } else {
-        fullPath += "/" + locale.getSpec().replaceAll("-", "/");
+        var nodeVersion = process.versions["node"].split(".")[0];
+        if (nodeVersion < 15) {
+            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
+        } else {
+            // replaceAll() is available since v15.0.0
+            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
+        }
+        
     }
     return fullPath;
 }
