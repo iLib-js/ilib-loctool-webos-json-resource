@@ -24,6 +24,9 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.5.8
+* Updated to use ilib for locale parsing.
+
 ### v1.5.7
 * Updated loctool dependency information to be written both `peerDependencies` and `devDependencies`.
 
