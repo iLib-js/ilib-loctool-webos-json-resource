@@ -3,7 +3,7 @@ ilib-loctool-webos-json-resource is a plugin for the loctool that
 allows it to read and localize JSON resource files. This plugins is optimized for webOS platform.
 
 ### JSONResource FileType
-This plugins is for generate JSON type of resource file from JavaScript, C, and Cpp source file type. The default json resource file name is `strings.json` which is for Javscript type file. In order to generate other resource file name, The following setting is needed in your `project.json` file.
+This plugin is for generating JSON type resource files from JavaScript, C, and Cpp source file types. The default JSON resource file name is `strings.json` which is for a JavaScript type. In order to generate other resource file names, The following setting is needed in your `project.json` file.
 ```json
  "settings": {
     "resourceFileNames": {
@@ -13,8 +13,8 @@ This plugins is for generate JSON type of resource file from JavaScript, C, and 
 }
 ```
 #### Sample
-The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), and [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp) samples to see what JSON file look like.
+The simple sample is provided in the [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
+Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), and [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp) samples to see what JSON files look like.
 
 ## License
 
