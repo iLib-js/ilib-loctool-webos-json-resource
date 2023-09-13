@@ -191,15 +191,22 @@ JSONResourceFile.prototype.getContent = function() {
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale) {
     var rootLocale = "en-US";
-    var splitLocale = this.locale.getSpec().split("-");
+    var lo = new Locale(locale);
     var fullPath = "";
 
     if (this.baseLocale) {
         if (this.locale.getSpec() !== rootLocale) {
-            fullPath = "/" + splitLocale[0];
+            fullPath = "/" + lo.getLanguage();
         }
     } else {
-        fullPath += "/" + splitLocale.join("/");
+        var nodeVersion = process.versions["node"].split(".")[0];
+        if (nodeVersion < 15) {
+            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
+        } else {
+            // replaceAll() is available since v15.0.0
+            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
+        }
+        
     }
     return fullPath;
 }
