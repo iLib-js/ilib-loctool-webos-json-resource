@@ -1,6 +1,6 @@
 # ilib-loctool-webos-json-resource
 ilib-loctool-webos-json-resource is a plugin for the loctool that
-allows it to read and localize JSON resource files. This plugins is optimized for webOS platform.
+allows it to read and localize JSON resource files. This plugin is optimized for the webOS platform.
 
 ### JSONResource FileType
 This plugin is for generating JSON type resource files from JavaScript, C, and Cpp source file types. The default JSON resource file name is `strings.json` which is for a JavaScript type. In order to generate other resource file names, The following setting is needed in your `project.json` file.
