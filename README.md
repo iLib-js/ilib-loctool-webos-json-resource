@@ -25,7 +25,7 @@ file for more details.
 
 ## Release Notes
 ### v1.5.8
-* Updated to use ilib for locale parsing.
+* Updated to use ilib's Locale class for locale parsing.
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
 
 ### v1.5.7
