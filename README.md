@@ -24,6 +24,9 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.5.9
+* Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
+
 ### v1.5.8
 * Updated to use ilib for locale parsing.
 
@@ -38,7 +41,7 @@ file for more details.
 
 ### v1.5.4
 * Updated dependencies. (loctool: 2.23.1)
-* Update to be included `npm-shrinkwrap.json` in the published files.
+* Updated to be included `npm-shrinkwrap.json` in the published files.
 
 ### v1.5.3
 * Updated dependencies. (loctool: 2.22.0)
