@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019 2022-2023 JEDLSoft
+ * Copyright (c) 2019-2023 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
