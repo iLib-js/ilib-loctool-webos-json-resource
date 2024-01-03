@@ -1,7 +1,7 @@
 /*
- * JSONResourceFile.test.js - test the JavaScript file handler object.
+ * testJSONResourceFile.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019 2022-2023 JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ var p = new CustomProject({
     resourceDirs: {
         "json": "localized_json"
     }
-    }, "./testfiles", {
+}, "./testfiles", {
     locales:["en-GB"]
 });
 
@@ -53,7 +53,7 @@ var p2 = new CustomProject({
     resourceDirs: {
         "json": "localized_json"
     }
-    }, "./testfiles", {
+}, "./testfiles", {
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -64,8 +64,8 @@ var p3 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
-    }, "./testfiles", {
+    },
+}, "./testfiles", {
     identify: true,
     resourceFileNames: {
       "c": "cstrings.json"
@@ -78,8 +78,8 @@ var p4 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "resources"
-    }
-    }, "./testfiles", {
+    },
+}, "./testfiles", {
     identify: true,
     resourceFileNames: {
       "cpp": "cppstrings.json"
@@ -93,23 +93,25 @@ var p5 = new CustomProject({
     resourceDirs: {
         "json": "resources"
     }
-    }, "./testfiles", {
+}, "./testfiles", {
     localeMap: {
         "es-CO": "es"
     }
 });
 
-describe("jsonresourcefilepath", function() {
-    test("JSONResourceFileConstructor", function() {
-        expect.assertions(1);
+module.exports.jsonresourcefilepath = {
+    testJSONResourceFileConstructor: function(test) {
+        test.expect(1);
 
         var jsrf = new JSONResourceFile({
             project: p
         });
-        expect(jsrf).toBeTruthy();
-    });
-    test("JSONResourceFileGetResourceFilePaths", function() {
-        expect.assertions(193);
+        test.ok(jsrf);
+
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths: function(test) {
+        test.expect(193);
         var jsrf;
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","ar-MR","ar-OM","ar-QA","ar-SA","ar-SD",
@@ -332,11 +334,12 @@ describe("jsonresourcefilepath", function() {
                 project: p2,
                 locale: locales[i]
             });
-            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
-    });
-    test("JSONResourceFileGetResourceFilePaths2", function() {
-        expect.assertions(5);
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths2: function(test) {
+        test.expect(5);
         var jsrf;
         var locales = ["bs-Latn-BA", "ha-Latn-NG", "hr-ME", "mn-Cyrl-MN", "pa-IN"];
 
@@ -353,11 +356,12 @@ describe("jsonresourcefilepath", function() {
                 project: p2,
                 locale: locales[i]
             });
-            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
-    });
-    test("teasJSONResourceFileGetResourceFilePaths3", function() {
-        expect.assertions(13);
+        test.done();
+    },
+    teasJSONResourceFileGetResourceFilePaths3: function(test) {
+        test.expect(13);
         var jsrf;
         var locales = ["en-US","en-GB", "en-AU", "es-CO",
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
@@ -376,11 +380,12 @@ describe("jsonresourcefilepath", function() {
                 project: p3,
                 locale: locales[i]
             });
-            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
-    });
-    test("JSONResourceFileGetResourceFilePaths4", function() {
-        expect.assertions(15);
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths4: function(test) {
+        test.expect(15);
         var jsrf;
         var locales = ["en-US","en-GB", "en-AU", "es-CO",
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
@@ -400,15 +405,16 @@ describe("jsonresourcefilepath", function() {
                 project: p4,
                 locale: locales[i]
             });
-            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
-    });
-    test("JSONResourceFileGetResourceFilePathsOverride", function() {
-        expect.assertions(5);
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePathsOverride: function(test) {
+        test.expect(5);
         var jsrf;
-
+        
         var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
-
+        
         var expected = [
             "testfiles/resources/en/GB/strings.json",
             "testfiles/resources/de/strings.json",
@@ -421,19 +427,22 @@ describe("jsonresourcefilepath", function() {
                 project: p5,
                 locale: locales[i]
             });
-            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+            test.equal(jsrf.getResourceFilePath(), expected[i]);
         }
-    });
-    test("JSONResourceFileGetResourceFilePaths_ko_US", function() {
-        expect.assertions(1);
+        test.done();
+    },
+    testJSONResourceFileGetResourceFilePaths_ko_US: function(test) {
+        test.expect(1);
         var jsrf;
         var locale = "ko-US";
         var expected = "testfiles/localized_json/ko/US/strings.json";
-
+        
         jsrf = new JSONResourceFile({
             project: p2,
             locale: locale
         });
-        expect(jsrf.getResourceFilePath()).toBe(expected);
-    });
-});
+        test.equal(jsrf.getResourceFilePath(), expected);
+        
+        test.done();
+    }
+};

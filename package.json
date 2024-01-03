@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-json-resource",
-    "version": "1.5.9",
+    "version": "1.5.8",
     "main": "./JSONResourceFileType.js",
     "description": "A loctool plugin that knows how to process JSON resource files",
     "license": "Apache-2.0",
@@ -41,9 +41,8 @@
     },
     "scripts": {
         "dist": "npm pack",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "debug": "node --inspect-brk node_modules/.bin/jest -i",
+        "test": "node test/testSuite.js",
+        "debug": "node --inspect-brk test/testSuite.js",
         "clean": "git clean -f -d *"
     },
     "engines": {
@@ -56,7 +55,8 @@
         "loctool": "2.23.1"
     },
     "devDependencies": {
-        "jest": "^26.6.3",
-        "loctool": "2.23.1"
+        "loctool": "2.23.1",
+        "assertextras": "^1.1.0",
+        "nodeunit": "^0.11.3"
     }
 }
