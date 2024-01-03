@@ -76,6 +76,7 @@ describe("jsonresourcefiletype", function() {
 
         var jrft = new JSONResourceFileType(p);
         expect(jrft).toBeTruthy();
+        debugger;
         var jsrf = jrft.getResourceFile("fr-FR");
         expect(jsrf.getLocale().getSpec()).toBe("fr-FR");
     });
