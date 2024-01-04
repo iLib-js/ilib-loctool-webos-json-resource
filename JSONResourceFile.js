@@ -189,26 +189,28 @@ JSONResourceFile.prototype.getContent = function() {
 /**
  * @private
  */
-JSONResourceFile.prototype._calcLocalePath = function(locale) {
+JSONResourceFile.prototype._calcLocalePath = function(locale, filename) {
     var rootLocale = "en-US";
-    var lo = new Locale(locale);
-    var fullPath = "";
-
+    var loc = new Locale(locale);
+    var lo = loc.getSpec();
+    var path = "";
+    var resDir = this.project.getResourceDirs("json")[0] || ".";
+    var mappingData = this.getMappings(filename);
+    
     if (this.baseLocale) {
-        if (this.locale.getSpec() !== rootLocale) {
-            fullPath = "/" + lo.getLanguage();
+        if (locale !== rootLocale) {
+            lo = loc.getLanguage();
         }
-    } else {
-        var nodeVersion = process.versions["node"].split(".")[0];
-        if (nodeVersion < 15) {
-            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
-        } else {
-            // replaceAll() is available since v15.0.0
-            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
-        }
-        
     }
-    return fullPath;
+    var path = this.API.utils.formatPath(mappingData.template, {
+        sourcepath: filename,
+        resourceDir: resDir,
+        locale: lo
+    });
+
+    // the file under en/US directory, it has to be located in the resource root
+    path = path.replace(/en\/([^A-Z])/, "$1");
+    return path;
 }
 
 /**
@@ -223,7 +225,7 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
  */
 JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     locale = locale || this.locale;
-    var dir, newPath, localePath;
+    var newPath, localePath;
     var filename = "strings.json";
 
     if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
@@ -235,15 +237,32 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
             filename = this.project.settings.resourceFileNames[projectType[1]];
         }
     }
-
-    localePath = this._calcLocalePath(locale);
-
-    dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
-    newPath = path.join(dir, localePath, filename);
-
+    
+    localePath = this._calcLocalePath(locale, filename);
+    newPath = path.join(this.project.target, localePath);
+    
     this.logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
     return newPath;
 };
+
+var defaultMappings = {
+    "strings.json": {
+        "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
+    }
+}
+
+JSONResourceFile.prototype._isExistMappingData = function(filename) {
+    var jsonMap = this.project.options?.settings?.jsonMap?.mappings[filename];
+    return (typeof jsonMap !== 'undefined') ? jsonMap : undefined;
+}
+
+JSONResourceFile.prototype.getMappings = function(filename) {
+    var jsonMap = this.project.options?.settings?.jsonMap;
+    var result = this._isExistMappingData(filename);
+    
+    return (typeof result !== 'undefined') ? result : defaultMappings["strings.json"];
+    
+}
 
 /**
  * Write the resource file out to disk again.

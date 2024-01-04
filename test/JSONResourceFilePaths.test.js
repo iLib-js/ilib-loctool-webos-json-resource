@@ -339,7 +339,7 @@ describe("jsonresourcefilepath", function() {
         expect.assertions(5);
         var jsrf;
         var locales = ["bs-Latn-BA", "ha-Latn-NG", "hr-ME", "mn-Cyrl-MN", "pa-IN"];
-
+        debugger;
         var expected = [
             "testfiles/localized_json/bs/strings.json",
             "testfiles/localized_json/ha/strings.json",
