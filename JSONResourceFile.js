@@ -233,7 +233,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     }
     if (this.project.options.projectType) {
         var projectType = this.project.options.projectType.split("-");
-        if (projectType[1] === "c" || projectType[1] === "cpp") {
+        if (projectType[1] === "c" || projectType[1] === "cpp" || projectType[1] === "dart") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
         }
     }
@@ -257,11 +257,9 @@ JSONResourceFile.prototype._isExistMappingData = function(filename) {
 }
 
 JSONResourceFile.prototype.getMappings = function(filename) {
-    var jsonMap = this.project.options?.settings?.jsonMap;
+    if (!filename) return undefined;
     var result = this._isExistMappingData(filename);
-    
     return (typeof result !== 'undefined') ? result : defaultMappings["strings.json"];
-    
 }
 
 /**
