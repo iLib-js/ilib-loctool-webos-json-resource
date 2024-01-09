@@ -142,6 +142,44 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
 };
 
 /**
+ * @private
+ */
+JSONResourceFile.prototype._isPluralData = function(data) {
+    //if (this.project.getProjectType() !== 'webos-dart') return false;
+    if (this.project.options.projectType !== 'webos-dart') return false;
+
+    if (data.indexOf("#" !== -1) && data.indexOf("|") !== -1) {
+        return true;
+    }
+    return false;
+};
+
+/**
+ * @private
+ */
+JSONResourceFile.prototype._parsePluralData = function(data) {
+    var splitData = data.split("|");
+    var parsePlural = {};
+    if (splitData.length > 0) {
+        splitData.forEach(function(item){
+            var categoryMap = {
+                "0" : "zero",
+                "1" : "one",
+                "2" : "two"
+            } 
+
+            var parse = item.split("#");
+            if (categoryMap[parse[0]] !== undefined) parse[0] = categoryMap[parse[0]];
+            if (parse[0] === '') parse[0] = "other";
+            parsePlural[parse[0]] = parse[1];
+
+        }.bind(this));
+    }
+
+    return parsePlural;
+};
+
+/**
  * Generate the content of the resource file.
  *
  * @private
@@ -160,6 +198,12 @@ JSONResourceFile.prototype.getContent = function() {
 
         for (var j = 0; j < resources.length; j++) {
             var resource = resources[j];
+            var result = this._isPluralData(resource.getTarget());
+            if (result) {
+                var data = this._parsePluralData(resource.getTarget());
+                resource.setTarget(data);
+            }
+
             if (resource.getSource() && resource.getTarget()) {
                 this.logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
                 json[resource.getKey()] = this.project.settings.identify ?
@@ -233,6 +277,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     }
     if (this.project.options.projectType) {
         var projectType = this.project.options.projectType.split("-");
+        //var projectType = this.project.getProjectType().split("-");
         if (projectType[1] === "c" || projectType[1] === "cpp" || projectType[1] === "dart") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
         }
@@ -313,7 +358,9 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     }
 
     walk(filePath, "");
-    var manifestFilePath = path.join(filePath, "ilibmanifest.json");
+    //var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ? path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
+    var manifestFilePath = (this.project.options.projectType === 'webos-dart') ?
+                           path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
         readManifest = fs.readFileSync(manifestFilePath, {encoding:'utf8'});
