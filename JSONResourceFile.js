@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright (c) 2019-2023, JEDLSoft
+ * Copyright (c) 2019-2024, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,7 +148,7 @@ JSONResourceFile.prototype._isPluralData = function(data) {
     //if (this.project.getProjectType() !== 'webos-dart') return false;
     if (this.project.options.projectType !== 'webos-dart') return false;
 
-    if (data.indexOf("#" !== -1) && data.indexOf("|") !== -1) {
+    if ((data.indexOf("#") > -1) && (data.indexOf("|") > -1)) {
         return true;
     }
     return false;
@@ -160,14 +160,13 @@ JSONResourceFile.prototype._isPluralData = function(data) {
 JSONResourceFile.prototype._parsePluralData = function(data) {
     var splitData = data.split("|");
     var parsePlural = {};
+    var categoryMap = {
+        "0" : "zero",
+        "1" : "one",
+        "2" : "two"
+    } 
     if (splitData.length > 0) {
         splitData.forEach(function(item){
-            var categoryMap = {
-                "0" : "zero",
-                "1" : "one",
-                "2" : "two"
-            } 
-
             var parse = item.split("#");
             if (categoryMap[parse[0]] !== undefined) parse[0] = categoryMap[parse[0]];
             if (parse[0] === '') parse[0] = "other";
