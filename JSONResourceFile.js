@@ -353,6 +353,11 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     if (!fs.existsSync(filePath)) return;
 
+    //(this.project.getProjectType() === 'webos-dart')
+    if (this.project.options.projectType === 'webos-dart') {
+        filePath = "assets/i18n";
+    }
+
     function walk(root, dir) {
         var list = fs.readdirSync(path.join(root, dir));
         list.forEach(function (file) {
