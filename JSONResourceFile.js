@@ -279,9 +279,11 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     if (this.project.options.projectType) {
         var projectType = this.project.options.projectType.split("-");
         //var projectType = this.project.getProjectType().split("-");
-        if (projectType[1] === "c" || projectType[1] === "cpp" || projectType[1] === "dart") {
+        type = projectType[1];
+        if (projectType[1] === "c" || projectType[1] === "cpp") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
-            type = projectType[1];
+        } else if (projectType[1] === "dart") {
+            filename = "";
         }
     }
     

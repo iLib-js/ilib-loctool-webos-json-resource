@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2023 JEDLSoft
+ * Copyright (c) 2019-2024 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,6 +96,27 @@ var p5 = new CustomProject({
     }, "./testfiles", {
     localeMap: {
         "es-CO": "es"
+    }
+});
+
+var p6 = new CustomProject({
+    id: "flutterHome",
+    projectType: "webos-dart",
+    sourceLocale: "en-KR",
+    resourceDirs: {
+        "json": "resources"
+    }
+    }, "./testfiles", {
+    localeMap: {
+        "es-CO": "es"
+    },
+    jsonMap: {
+        "mappings": {
+            "**/*.dart": {
+                "type": "dart",
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
     }
 });
 
@@ -339,7 +360,6 @@ describe("jsonresourcefilepath", function() {
         expect.assertions(5);
         var jsrf;
         var locales = ["bs-Latn-BA", "ha-Latn-NG", "hr-ME", "mn-Cyrl-MN", "pa-IN"];
-
         var expected = [
             "testfiles/localized_json/bs/strings.json",
             "testfiles/localized_json/ha/strings.json",
@@ -435,5 +455,50 @@ describe("jsonresourcefilepath", function() {
             locale: locale
         });
         expect(jsrf.getResourceFilePath()).toBe(expected);
+    });
+    test("JSONResourceFileGetResourceFilePathsFlutter", function() {
+        expect.assertions(5);
+        var jsrf;
+
+        var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
+
+        var expected = [
+            "testfiles/assets/i18n/en_GB.json",
+            "testfiles/assets/i18n/de.json",
+            "testfiles/assets/i18n/de_AT.json",
+            "testfiles/assets/i18n/es.json",
+            "testfiles/assets/i18n/es_ES.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p6,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
+    });
+    test("JSONResourceFileGetResourceFilePathsFlutter2", function() {
+        expect.assertions(15);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "testfiles/assets/i18n/en.json","testfiles/assets/i18n/en_GB.json",
+            "testfiles/assets/i18n/en_AU.json","testfiles/assets/i18n/es.json",
+            "testfiles/assets/i18n/es_ES.json","testfiles/assets/i18n/et.json",
+            "testfiles/assets/i18n/fa.json","testfiles/assets/i18n/fa_AF.json",
+            "testfiles/assets/i18n/fr.json","testfiles/assets/i18n/fr_CA.json",
+            "testfiles/assets/i18n/hr.json", "testfiles/assets/i18n/hr_ME.json",
+            "testfiles/assets/i18n/zh.json","testfiles/assets/i18n/zh_Hant_HK.json",
+            "testfiles/assets/i18n/zh_Hant_TW.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p6,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
     });
 });
