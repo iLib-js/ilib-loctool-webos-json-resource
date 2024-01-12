@@ -232,14 +232,15 @@ JSONResourceFile.prototype.getContent = function() {
 /**
  * @private
  */
-JSONResourceFile.prototype._calcLocalePath = function(locale, filename) {
+JSONResourceFile.prototype._calcLocalePath = function(locale, type, filename) {
     var rootLocale = "en-US";
     var loc = new Locale(locale);
     var lo = loc.getSpec();
     var path = "";
+    if (!type) type = "js";
     var resDir = this.project.getResourceDirs("json")[0] || ".";
-    var mappingData = this.getMappings(filename);
-    
+    var mappingData = this.getMapping(type);
+
     if (this.baseLocale) {
         if (locale !== rootLocale) {
             lo = loc.getLanguage();
@@ -270,6 +271,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     locale = locale || this.locale;
     var newPath, localePath;
     var filename = "strings.json";
+    var type;
 
     if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
         filename = this.project.settings.resourceFileNames["json"];
@@ -279,10 +281,11 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
         //var projectType = this.project.getProjectType().split("-");
         if (projectType[1] === "c" || projectType[1] === "cpp" || projectType[1] === "dart") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
+            type = projectType[1];
         }
     }
     
-    localePath = this._calcLocalePath(locale, filename);
+    localePath = this._calcLocalePath(locale, type, filename);
     newPath = path.join(this.project.target, localePath);
     
     this.logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
@@ -290,20 +293,30 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
 };
 
 var defaultMappings = {
-    "strings.json": {
-        "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
+    "**/*.js": {
+        "template": "[dir]/[resourceDir]/[localeDir]/[filename]",
+        "type": "js"
     }
 }
 
-JSONResourceFile.prototype._isExistMappingData = function(filename) {
-    var jsonMap = this.project.options?.settings?.jsonMap?.mappings[filename];
-    return (typeof jsonMap !== 'undefined') ? jsonMap : undefined;
-}
+JSONResourceFile.prototype.getMapping = function(projectType) {
+    if (typeof projectType === 'undefined') return undefined;
+    var mapping;
+    var jsonMapInfo = this.project.settings.jsonMap;
+    mappingInfo =  (typeof jsonMapInfo !== 'undefined') ? jsonMapInfo.mappings : undefined;
 
-JSONResourceFile.prototype.getMappings = function(filename) {
-    if (!filename) return undefined;
-    var result = this._isExistMappingData(filename);
-    return (typeof result !== 'undefined') ? result : defaultMappings["strings.json"];
+    if (jsonMapInfo && mappingInfo) {
+        for(var item in mappingInfo) {
+            if ( (typeof (mappingInfo[item].type) !== 'undefined') &&
+                mappingInfo[item].type === projectType) {
+                mapping = mappingInfo[item];
+                break;
+            }
+        }
+    }
+
+    if(!mapping) mapping = defaultMappings["**/*.js"];
+    return mapping;
 }
 
 /**
