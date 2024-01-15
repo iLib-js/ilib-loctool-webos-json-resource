@@ -14,7 +14,7 @@ This plugin is for generating JSON type resource files from JavaScript, C, and C
 ```
 #### Sample
 The simple sample is provided in the [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), and [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp) samples to see what JSON files look like.
+Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp), and [webos-dart](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-dart) samples to see what JSON files look like.
 
 ## License
 
@@ -24,7 +24,20 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
-### v1.5.9
+
+### v1.6.0
+* Updated to support Dart filetype localization output.
+  * The following settins value is need in your `project.json` file to get proper ouput.
+  ```json
+  "jsonMap": {
+        "mappings": {
+            "**/*.dart": {
+                "type": "dart",
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    },
+  ```
 * Converted all the unit tests from `nodeunit` to `jest`.
 
 ### v1.5.8
