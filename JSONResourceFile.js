@@ -296,7 +296,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     localePath = this._calcLocalePath(locale, type, filename);
     dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
     newPath = path.join(dir, localePath, filename);
-    
+
     this.logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
     return newPath;
 };
