@@ -29,10 +29,9 @@ file for more details.
 * Updated to support Dart filetype localization output.
   * The following settins value is need in your `project.json` file to get proper ouput.
   ```json
-  "jsonMap": {
+  "dart": {
         "mappings": {
             "**/*.dart": {
-                "type": "dart",
                 "template": "[dir]/assets/i18n/[localeUnder].json"
             }
         }

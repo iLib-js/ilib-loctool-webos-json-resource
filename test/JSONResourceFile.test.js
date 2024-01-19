@@ -1055,7 +1055,7 @@ describe("jsonresourcefile", function() {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-        debugger;
+
         // should use the default locale spec in the first line
         var expected =
             '{\n' +

@@ -1,7 +1,7 @@
 /*
  * JSONResourceFileType.js - Represents a collection of JSON files
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2022, 2024 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,14 +102,15 @@ JSONResourceFileType.prototype.newFile = function(pathName, options) {
  * @return {JSONResourceFile} the JSON resource file that serves the
  * given project, context, and locale.
  */
-JSONResourceFileType.prototype.getResourceFile = function(locale) {
+JSONResourceFileType.prototype.getResourceFile = function(locale, pathName) {
     var key = locale || this.project.sourceLocale;
     var resfile = this.resourceFiles && this.resourceFiles[key];
 
     if (!resfile) {
         resfile = this.resourceFiles[key] = new JSONResourceFile({
             project: this.project,
-            locale: key
+            locale: key,
+            pathName: pathName
         });
 
         this.logger.trace("Defining new resource file");

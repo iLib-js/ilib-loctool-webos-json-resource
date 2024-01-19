@@ -104,16 +104,15 @@ var p6 = new CustomProject({
     projectType: "webos-dart",
     sourceLocale: "en-KR",
     resourceDirs: {
-        "json": "resources"
+        "json": "assets/i18n"
     }
     }, "./testfiles", {
     localeMap: {
         "es-CO": "es"
     },
-    jsonMap: {
+    dart: {
         "mappings": {
             "**/*.dart": {
-                "type": "dart",
                 "template": "[dir]/assets/i18n/[localeUnder].json"
             }
         }
@@ -493,6 +492,7 @@ describe("jsonresourcefilepath", function() {
             "testfiles/assets/i18n/zh.json","testfiles/assets/i18n/zh_Hant_HK.json",
             "testfiles/assets/i18n/zh_Hant_TW.json"
         ];
+
         for (var i=0; i<locales.length;i++) {
             jsrf = new JSONResourceFile({
                 project: p6,

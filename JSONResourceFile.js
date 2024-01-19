@@ -35,9 +35,13 @@ var Utils = require("loctool/lib/utils.js");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
-    this.project = props.project;
-    this.locale = new Locale(props.locale);
-    this.API = props.project.getAPI();
+    this.locale = new Locale();
+    if (props) {
+        this.project = props.project;
+        this.pathName = props.pathName;
+        this.locale = new Locale(props.locale);
+        this.API = props.project.getAPI();
+    }
     this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFile");
     if (Object.keys(this.project.localeMap).length > 0) {
         Utils.setBaseLocale(this.project.localeMap);
@@ -234,27 +238,29 @@ JSONResourceFile.prototype.getContent = function() {
  */
 JSONResourceFile.prototype._calcLocalePath = function(locale, type, filename) {
     var rootLocale = "en-US";
-    var loc = new Locale(locale);
-    var lo = loc.getSpec();
-    var path = "";
-    if (!type) type = "js";
-    var resDir = this.project.getResourceDirs("json")[0] || ".";
-    var mappingData = this.getMapping(type);
+    var lo = new Locale(locale);
+    var fullPath = "";
 
     if (this.baseLocale) {
-        if (locale !== rootLocale) {
-            lo = loc.getLanguage();
+        if (this.locale.getSpec() !== rootLocale) {
+            fullPath = "/" + lo.getLanguage();
         }
-    }
-    var path = this.API.utils.formatPath(mappingData.template, {
-        sourcepath: filename,
-        resourceDir: resDir,
-        locale: lo
-    });
+    } else {
+        var nodeVersion = process.versions["node"].split(".")[0];
+        if (nodeVersion < 15) {
+            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
+        } else {
+            // replaceAll() is available since v15.0.0
+            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
+        }
 
-    // the file under en/US directory, it has to be located in the resource root
-    path = path.replace(/en\/([^A-Z])/, "$1");
-    return path;
+    }
+
+    if (type === "dart") { // for testing in testfile.
+        fullPath = (fullPath === "") ? "/en" : fullPath;
+        fullPath = fullPath.replace(/\//g, "_").substring(1) + ".json";
+    }
+    return fullPath;
 }
 
 /**
@@ -288,38 +294,12 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     }
     
     localePath = this._calcLocalePath(locale, type, filename);
-    newPath = path.join(this.project.target, localePath);
+    dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
+    newPath = path.join(dir, localePath, filename);
     
     this.logger.trace("Getting resource file path for locale " + locale + ": " + newPath);
     return newPath;
 };
-
-var defaultMappings = {
-    "**/*.js": {
-        "template": "[dir]/[resourceDir]/[localeDir]/[filename]",
-        "type": "js"
-    }
-}
-
-JSONResourceFile.prototype.getMapping = function(projectType) {
-    if (typeof projectType === 'undefined') return undefined;
-    var mapping;
-    var jsonMapInfo = this.project.settings.jsonMap;
-    mappingInfo =  (typeof jsonMapInfo !== 'undefined') ? jsonMapInfo.mappings : undefined;
-
-    if (jsonMapInfo && mappingInfo) {
-        for(var item in mappingInfo) {
-            if ( (typeof (mappingInfo[item].type) !== 'undefined') &&
-                mappingInfo[item].type === projectType) {
-                mapping = mappingInfo[item];
-                break;
-            }
-        }
-    }
-
-    if(!mapping) mapping = defaultMappings["**/*.js"];
-    return mapping;
-}
 
 /**
  * Write the resource file out to disk again.
