@@ -149,8 +149,7 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
  * @private
  */
 JSONResourceFile.prototype._isPluralData = function(data) {
-    //if (this.project.getProjectType() !== 'webos-dart') return false;
-    if (this.project.options.projectType !== 'webos-dart') return false;
+    if (this.project.getProjectType() !== 'webos-dart') return false;
 
     if ((data.indexOf("#") > -1) && (data.indexOf("|") > -1)) {
         return true;
@@ -283,8 +282,7 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
         filename = this.project.settings.resourceFileNames["json"];
     }
     if (this.project.options.projectType) {
-        var projectType = this.project.options.projectType.split("-");
-        //var projectType = this.project.getProjectType().split("-");
+        var projectType = this.project.getProjectType().split("-");
         type = projectType[1];
         if (projectType[1] === "c" || projectType[1] === "cpp") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
@@ -335,8 +333,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     if (!fs.existsSync(filePath)) return;
 
-    //(this.project.getProjectType() === 'webos-dart')
-    if (this.project.options.projectType === 'webos-dart') {
+    if (this.project.getProjectType() === 'webos-dart') {
         filePath = "assets/i18n";
     }
 
@@ -357,8 +354,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     }
 
     walk(filePath, "");
-    //var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ? path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
-    var manifestFilePath = (this.project.options.projectType === 'webos-dart') ?
+    var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ?
                            path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
