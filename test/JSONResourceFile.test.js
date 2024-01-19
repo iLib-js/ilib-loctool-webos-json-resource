@@ -65,11 +65,8 @@ var p3 = new CustomProject({
     id: "flutterHome",
     projectType: "webos-dart",
     sourceLocale: "en-KR",
-    resourceDirs: {
-        "json": "resources"
-    }
     }, "./testfiles", {
-    jsonMap: {
+    dart: {
         "mappings": {
             "**/*.dart": {
                 "type": "dart",
