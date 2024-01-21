@@ -245,14 +245,7 @@ JSONResourceFile.prototype._calcLocalePath = function(locale, type, filename) {
             fullPath = "/" + lo.getLanguage();
         }
     } else {
-        var nodeVersion = process.versions["node"].split(".")[0];
-        if (nodeVersion < 15) {
-            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
-        } else {
-            // replaceAll() is available since v15.0.0
-            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
-        }
-
+        fullPath += "/" + locale.getSpec().replace(/-/g, "/");
     }
 
     if (type === "dart") { // for testing in testfile.

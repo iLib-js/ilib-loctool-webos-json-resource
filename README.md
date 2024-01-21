@@ -27,15 +27,17 @@ file for more details.
 
 ### v1.6.0
 * Updated to support Dart filetype localization output.
-  * The following settins value is need in your `project.json` file to get proper ouput.
+  * The following settings value is need in your `project.json` file to get proper ouput.
   ```json
-  "dart": {
+  "settings": {
+    "dart": {
         "mappings": {
             "**/*.dart": {
                 "template": "[dir]/assets/i18n/[localeUnder].json"
             }
         }
     },
+  }
   ```
 * Converted all the unit tests from `nodeunit` to `jest`.
 
