@@ -131,7 +131,7 @@ file for more details.
 ### v1.2.0
 * Supported various resourceOutput file name. It can be specified according to project type.
     * If the project type is c or cpp program, it should be written in project configuration.
-        ~~~~
+        ~~~~json
         "settings": {
             "locales": ["en-US", "ko-KR", "zh-Hans-CN"],
             "resourceFileNames": {
