@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright (c) 2019-2023, JEDLSoft
+ * Copyright (c) 2019-2024, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,9 +35,13 @@ var Utils = require("loctool/lib/utils.js");
  * @param {Object} props properties that control the construction of this file.
  */
 var JSONResourceFile = function(props) {
-    this.project = props.project;
-    this.locale = new Locale(props.locale);
-    this.API = props.project.getAPI();
+    this.locale = new Locale();
+    if (props) {
+        this.project = props.project;
+        this.pathName = props.pathName;
+        this.locale = new Locale(props.locale);
+        this.API = props.project.getAPI();
+    }
     this.logger = this.API.getLogger("loctool.plugin.webOSJsonResourceFile");
     if (Object.keys(this.project.localeMap).length > 0) {
         Utils.setBaseLocale(this.project.localeMap);
@@ -142,6 +146,42 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
 };
 
 /**
+ * @private
+ */
+JSONResourceFile.prototype._isPluralData = function(data) {
+    if (this.project.getProjectType() !== 'webos-dart') return false;
+
+    if ((data.indexOf("#") > -1) && (data.indexOf("|") > -1)) {
+        return true;
+    }
+    return false;
+};
+
+/**
+ * @private
+ */
+JSONResourceFile.prototype._parsePluralData = function(data) {
+    var splitData = data.split("|");
+    var parsePlural = {};
+    var categoryMap = {
+        "0" : "zero",
+        "1" : "one",
+        "2" : "two"
+    } 
+    if (splitData.length > 0) {
+        splitData.forEach(function(item){
+            var parse = item.split("#");
+            if (categoryMap[parse[0]] !== undefined) parse[0] = categoryMap[parse[0]];
+            if (parse[0] === '') parse[0] = "other";
+            parsePlural[parse[0]] = parse[1];
+
+        }.bind(this));
+    }
+
+    return parsePlural;
+};
+
+/**
  * Generate the content of the resource file.
  *
  * @private
@@ -160,6 +200,12 @@ JSONResourceFile.prototype.getContent = function() {
 
         for (var j = 0; j < resources.length; j++) {
             var resource = resources[j];
+            var result = this._isPluralData(resource.getTarget());
+            if (result) {
+                var data = this._parsePluralData(resource.getTarget());
+                resource.setTarget(data);
+            }
+
             if (resource.getSource() && resource.getTarget()) {
                 this.logger.trace("writing translation for " + resource.getKey() + " as " + resource.getTarget());
                 json[resource.getKey()] = this.project.settings.identify ?
@@ -189,7 +235,7 @@ JSONResourceFile.prototype.getContent = function() {
 /**
  * @private
  */
-JSONResourceFile.prototype._calcLocalePath = function(locale) {
+JSONResourceFile.prototype._calcLocalePath = function(locale, type) {
     var rootLocale = "en-US";
     var lo = new Locale(locale);
     var fullPath = "";
@@ -199,14 +245,12 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
             fullPath = "/" + lo.getLanguage();
         }
     } else {
-        var nodeVersion = process.versions["node"].split(".")[0];
-        if (nodeVersion < 15) {
-            fullPath += "/" + locale.getSpec().replace(/-/g, "/");
-        } else {
-            // replaceAll() is available since v15.0.0
-            fullPath += "/" + locale.getSpec().replaceAll("-", "/");
-        }
-        
+        fullPath += "/" + locale.getSpec().replace(/-/g, "/");
+    }
+
+    if (type === "dart") { // for testing in testfile.
+        fullPath = (fullPath === "") ? "/en" : fullPath;
+        fullPath = fullPath.replace(/\//g, "_").substring(1) + ".json";
     }
     return fullPath;
 }
@@ -223,21 +267,24 @@ JSONResourceFile.prototype._calcLocalePath = function(locale) {
  */
 JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     locale = locale || this.locale;
-    var dir, newPath, localePath;
+    var newPath, localePath;
     var filename = "strings.json";
+    var type;
 
     if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
         filename = this.project.settings.resourceFileNames["json"];
     }
     if (this.project.options.projectType) {
-        var projectType = this.project.options.projectType.split("-");
+        var projectType = this.project.getProjectType().split("-");
+        type = projectType[1];
         if (projectType[1] === "c" || projectType[1] === "cpp") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
+        } else if (projectType[1] === "dart") {
+            filename = "";
         }
     }
-
-    localePath = this._calcLocalePath(locale);
-
+    
+    localePath = this._calcLocalePath(locale, type);
     dir = path.join(this.project.target, this.project.getResourceDirs("json")[0] || "resources");
     newPath = path.join(dir, localePath, filename);
 
@@ -279,6 +326,10 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
 
     if (!fs.existsSync(filePath)) return;
 
+    if (this.project.getProjectType() === 'webos-dart') {
+        filePath = "assets/i18n";
+    }
+
     function walk(root, dir) {
         var list = fs.readdirSync(path.join(root, dir));
         list.forEach(function (file) {
@@ -296,7 +347,8 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     }
 
     walk(filePath, "");
-    var manifestFilePath = path.join(filePath, "ilibmanifest.json");
+    var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ?
+                           path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
         readManifest = fs.readFileSync(manifestFilePath, {encoding:'utf8'});
