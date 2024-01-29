@@ -1,7 +1,7 @@
 /*
- * testJSONResourceFile.js - test the JavaScript file handler object.
+ * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2024 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ var p = new CustomProject({
     resourceDirs: {
         "json": "localized_json"
     }
-}, "./testfiles", {
+    }, "./testfiles", {
     locales:["en-GB"]
 });
 
@@ -53,7 +53,7 @@ var p2 = new CustomProject({
     resourceDirs: {
         "json": "localized_json"
     }
-}, "./testfiles", {
+    }, "./testfiles", {
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -64,8 +64,8 @@ var p3 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    },
-}, "./testfiles", {
+    }
+    }, "./testfiles", {
     identify: true,
     resourceFileNames: {
       "c": "cstrings.json"
@@ -78,8 +78,8 @@ var p4 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "resources"
-    },
-}, "./testfiles", {
+    }
+    }, "./testfiles", {
     identify: true,
     resourceFileNames: {
       "cpp": "cppstrings.json"
@@ -93,25 +93,43 @@ var p5 = new CustomProject({
     resourceDirs: {
         "json": "resources"
     }
-}, "./testfiles", {
+    }, "./testfiles", {
     localeMap: {
         "es-CO": "es"
     }
 });
 
-module.exports.jsonresourcefilepath = {
-    testJSONResourceFileConstructor: function(test) {
-        test.expect(1);
+var p6 = new CustomProject({
+    id: "flutterHome",
+    projectType: "webos-dart",
+    sourceLocale: "en-KR",
+    resourceDirs: {
+        "json": "assets/i18n"
+    }
+    }, "./testfiles", {
+    localeMap: {
+        "es-CO": "es"
+    },
+    dart: {
+        "mappings": {
+            "**/*.dart": {
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    }
+});
+
+describe("jsonresourcefilepath", function() {
+    test("JSONResourceFileConstructor", function() {
+        expect.assertions(1);
 
         var jsrf = new JSONResourceFile({
             project: p
         });
-        test.ok(jsrf);
-
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePaths: function(test) {
-        test.expect(193);
+        expect(jsrf).toBeTruthy();
+    });
+    test("JSONResourceFileGetResourceFilePaths", function() {
+        expect.assertions(193);
         var jsrf;
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","ar-MR","ar-OM","ar-QA","ar-SA","ar-SD",
@@ -334,15 +352,13 @@ module.exports.jsonresourcefilepath = {
                 project: p2,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePaths2: function(test) {
-        test.expect(5);
+    });
+    test("JSONResourceFileGetResourceFilePaths2", function() {
+        expect.assertions(5);
         var jsrf;
         var locales = ["bs-Latn-BA", "ha-Latn-NG", "hr-ME", "mn-Cyrl-MN", "pa-IN"];
-
         var expected = [
             "testfiles/localized_json/bs/strings.json",
             "testfiles/localized_json/ha/strings.json",
@@ -356,12 +372,11 @@ module.exports.jsonresourcefilepath = {
                 project: p2,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    teasJSONResourceFileGetResourceFilePaths3: function(test) {
-        test.expect(13);
+    });
+    test("teasJSONResourceFileGetResourceFilePaths3", function() {
+        expect.assertions(13);
         var jsrf;
         var locales = ["en-US","en-GB", "en-AU", "es-CO",
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
@@ -380,12 +395,11 @@ module.exports.jsonresourcefilepath = {
                 project: p3,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePaths4: function(test) {
-        test.expect(15);
+    });
+    test("JSONResourceFileGetResourceFilePaths4", function() {
+        expect.assertions(15);
         var jsrf;
         var locales = ["en-US","en-GB", "en-AU", "es-CO",
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
@@ -405,16 +419,15 @@ module.exports.jsonresourcefilepath = {
                 project: p4,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePathsOverride: function(test) {
-        test.expect(5);
+    });
+    test("JSONResourceFileGetResourceFilePathsOverride", function() {
+        expect.assertions(5);
         var jsrf;
-        
+
         var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
-        
+
         var expected = [
             "testfiles/resources/en/GB/strings.json",
             "testfiles/resources/de/strings.json",
@@ -427,22 +440,65 @@ module.exports.jsonresourcefilepath = {
                 project: p5,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePaths_ko_US: function(test) {
-        test.expect(1);
+    });
+    test("JSONResourceFileGetResourceFilePaths_ko_US", function() {
+        expect.assertions(1);
         var jsrf;
         var locale = "ko-US";
         var expected = "testfiles/localized_json/ko/US/strings.json";
-        
+
         jsrf = new JSONResourceFile({
             project: p2,
             locale: locale
         });
-        test.equal(jsrf.getResourceFilePath(), expected);
-        
-        test.done();
-    }
-};
+        expect(jsrf.getResourceFilePath()).toBe(expected);
+    });
+    test("JSONResourceFileGetResourceFilePathsFlutter", function() {
+        expect.assertions(5);
+        var jsrf;
+
+        var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
+
+        var expected = [
+            "testfiles/assets/i18n/en_GB.json",
+            "testfiles/assets/i18n/de.json",
+            "testfiles/assets/i18n/de_AT.json",
+            "testfiles/assets/i18n/es.json",
+            "testfiles/assets/i18n/es_ES.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p6,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
+    });
+    test("JSONResourceFileGetResourceFilePathsFlutter2", function() {
+        expect.assertions(15);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        var expected = [
+            "testfiles/assets/i18n/en.json","testfiles/assets/i18n/en_GB.json",
+            "testfiles/assets/i18n/en_AU.json","testfiles/assets/i18n/es.json",
+            "testfiles/assets/i18n/es_ES.json","testfiles/assets/i18n/et.json",
+            "testfiles/assets/i18n/fa.json","testfiles/assets/i18n/fa_AF.json",
+            "testfiles/assets/i18n/fr.json","testfiles/assets/i18n/fr_CA.json",
+            "testfiles/assets/i18n/hr.json", "testfiles/assets/i18n/hr_ME.json",
+            "testfiles/assets/i18n/zh.json","testfiles/assets/i18n/zh_Hant_HK.json",
+            "testfiles/assets/i18n/zh_Hant_TW.json"
+        ];
+
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p6,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
+    });
+});

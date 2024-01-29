@@ -1,7 +1,7 @@
 /*
- * testJSONResourceFile.js - test the JavaScript file handler object.
+ * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2024 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,38 +61,48 @@ var p2 = new CustomProject({
     identify: true
 });
 
-module.exports.jsonresourcefile = {
-    testJSONResourceFileConstructor: function(test) {
-        test.expect(1);
+var p3 = new CustomProject({
+    id: "flutterHome",
+    projectType: "webos-dart",
+    sourceLocale: "en-KR",
+    }, "./testfiles", {
+    dart: {
+        "mappings": {
+            "**/*.dart": {
+                "type": "dart",
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    }
+});
+
+describe("jsonresourcefile", function() {
+    test("JSONResourceFileConstructor", function() {
+        expect.assertions(1);
 
         var jsrf = new JSONResourceFile({
             project: p
         });
-        test.ok(jsrf);
-        test.done();
-    },
-
-    testJSONResourceFileConstructorParams: function(test) {
-        test.expect(1);
+        expect(jsrf).toBeTruthy();
+    });
+    test("JSONResourceFileConstructorParams", function() {
+        expect.assertions(1);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "en-US"
         });
-
-        test.ok(jsrf);
-        test.done();
-    },
-    testJSONResourceFileIsDirty: function(test) {
-        test.expect(3);
+        expect(jsrf).toBeTruthy();
+    });
+    test("JSONResourceFileIsDirty", function() {
+        expect.assertions(3);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
-        test.ok(!jsrf.isDirty());
+        expect(jsrf).toBeTruthy();
+        expect(!jsrf.isDirty()).toBeTruthy();
 
         [
             p.getAPI().newResource({
@@ -125,20 +135,16 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
-        test.ok(jsrf.isDirty());
-        test.done();
-    },
-
-    testJSONResourceFileRightContents: function(test) {
-        test.expect(2);
+        expect(jsrf.isDirty()).toBeTruthy();
+    });
+    test("JSONResourceFileRightContents", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
         [
             p2.getAPI().newResource({
                 type: "string",
@@ -170,40 +176,31 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
-        test.equal(jsrf.getContent(),
-            '{\n' +
+        expect(jsrf.getContent()).toBe('{\n' +
             '    "more source text": "mehr Quellentext",\n' +
             '    "source text": "Quellentext",\n' +
             '    "yet more source text": "noch mehr Quellentext"\n' +
             '}'
         );
-
-        test.done();
-    },
-
-    testJSONResourceFileGetContentsNoContent: function(test) {
-        test.expect(2);
+    });
+    test("JSONResourceFileGetContentsNoContent", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getContent(),'{}');
-        test.done();
-    },
-
-    testJSONResourceFileEscapeDoubleQuotes: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getContent()).toBe('{}');
+    });
+    test("JSONResourceFileEscapeDoubleQuotes", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
         [
             p2.getAPI().newResource({
                 type: "string",
@@ -226,25 +223,20 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
-        test.equal(jsrf.getContent(),
-            '{\n' +
+        expect(jsrf.getContent()).toBe('{\n' +
             '    "more source text": "mehr Quellen\\"text",\n' +
             '    "source text": "Quellen\\"text"\n' +
             '}'
         );
-        test.done();
-    },
-
-    testJSONResourceFileDontEscapeSingleQuotes: function(test) {
-        test.expect(2);
+    });
+    test("JSONResourceFileDontEscapeSingleQuotes", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
         [
             p2.getAPI().newResource({
                 type: "string",
@@ -267,26 +259,20 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
-        test.equal(jsrf.getContent(),
-            '{\n' +
+        expect(jsrf.getContent()).toBe('{\n' +
             '    "more source text": "mehr Quellen\'text",\n' +
             '    "source text": "Quellen\'text"\n' +
             '}'
         );
-
-        test.done();
-    },
-
-    testJSONResourceFileIdentifyResourceIds: function(test) {
-        test.expect(2);
+    });
+    test("JSONResourceFileIdentifyResourceIds", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -319,7 +305,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         var expected =
             '{\n' +
             '    "more source text": "<span loclang=\\"javascript\\" locid=\\"more source text\\">mehr Quellentext</span>",\n' +
@@ -330,175 +315,136 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguage: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguage", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguageNoDefaultAvailable: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguageNoDefaultAvailable", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguage: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguage", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-AT"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/AT/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguageWithFlavor: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/AT/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguageWithFlavor", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageWithFlavor: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageWithFlavor", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-AT-ASDF"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/AT/ASDF/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZH: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/AT/ASDF/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZH", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hans-CN"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/zh/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZHNoDefaultsAvailable: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/zh/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZHNoDefaultsAvailable", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "zh-Hans-CN"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/zh/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZH: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/zh/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocaleForLanguageZH", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hant-HK"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/zh/Hant/HK/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageZH2: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/zh/Hant/HK/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageZH2", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hans-SG"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/zh/Hans/SG/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageZH3: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/zh/Hans/SG/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathNonDefaultLocaleForLanguageZH3", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hant-TW"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/zh/Hant/TW/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathDefaultLocale: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/zh/Hant/TW/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathDefaultLocale", function() {
+        expect.assertions(2);
 
         // should default to English/US
         var jsrf = new JSONResourceFile({
             project: p2
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetResourceFilePathAlreadyHasPath: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/strings.json");
+    });
+    test("JSONResourceFileGetResourceFilePathAlreadyHasPath", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-AT"
         });
-
-        test.ok(jsrf);
-        test.equal(jsrf.getResourceFilePath(), "testfiles/localized_json/de/AT/strings.json");
-        test.done();
-    },
-
-    testJSONResourceFileGetContentDefaultLocale: function(test) {
-        test.expect(2);
+        expect(jsrf).toBeTruthy();
+        expect(jsrf.getResourceFilePath()).toBe("testfiles/localized_json/de/AT/strings.json");
+    });
+    test("JSONResourceFileGetContentDefaultLocale", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -531,7 +477,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -543,12 +488,10 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentDefaultLocaleNoDefaultsAvailable: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentDefaultLocaleNoDefaultsAvailable", function() {
+        expect.assertions(2);
 
         var customP = new CustomProject({
             id: "webosApp",
@@ -560,13 +503,11 @@ module.exports.jsonresourcefile = {
             locales:["en-GB", "de-DE", "de-AT"],
             identify: true
         });
-
         var jsrf = new JSONResourceFile({
             project: customP,
             locale: "de-DE"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             customP.getAPI().newResource({
@@ -599,7 +540,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the full locale spec in the first line
         var expected =
             '{\n' +
@@ -611,19 +551,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentNonDefaultLocale: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentNonDefaultLocale", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-AT"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -656,7 +593,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the full locale spec in the first line
         var expected =
             '{\n' +
@@ -668,19 +604,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentDefaultLocaleZH: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentDefaultLocaleZH", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hans-CN"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -713,7 +646,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -725,19 +657,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentDefaultLocaleZH2: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentDefaultLocaleZH2", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hant-HK"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -770,7 +699,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -782,19 +710,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentNonDefaultLocaleZH: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentNonDefaultLocaleZH", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hans-SG"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -827,7 +752,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -839,19 +763,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentNonDefaultLocaleZH2: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentNonDefaultLocaleZH2", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "zh-Hant-TW"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -884,7 +805,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -896,19 +816,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentDefaultLocaleWithFlavor: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentDefaultLocaleWithFlavor", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE-ASDF"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -941,7 +858,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -953,19 +869,16 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-
-    testJSONResourceFileGetContentNonDefaultLocaleWithFlavor: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentNonDefaultLocaleWithFlavor", function() {
+        expect.assertions(2);
 
         var jsrf = new JSONResourceFile({
             project: p2,
             locale: "de-DE-ASDF"
         });
-
-        test.ok(jsrf);
+        expect(jsrf).toBeTruthy();
 
         [
             p2.getAPI().newResource({
@@ -998,7 +911,6 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         // should use the default locale spec in the first line
         var expected =
             '{\n' +
@@ -1010,11 +922,10 @@ module.exports.jsonresourcefile = {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
-        test.equal(actual, expected);
-        test.done();
-    },
-    teasJSONResourceFileGetResourceFilePaths: function(test) {
-        test.expect(13);
+        expect(actual).toBe(expected);
+    });
+    test("teasJSONResourceFileGetResourceFilePaths", function() {
+        expect.assertions(13);
         var jsrf;
         var locales = ["en-US","en-GB", "en-AU", "es-CO",
                     "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
@@ -1033,20 +944,18 @@ module.exports.jsonresourcefile = {
                 project: p2,
                 locale: locales[i]
             });
-            test.equal(jsrf.getResourceFilePath(), expected[i]);
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileWriteSameTranslation: function(test) {
-        test.expect(4);
+    });
+    test("JSONResourceFileWriteSameTranslation", function() {
+        expect.assertions(4);
 
         var jsrf = new JSONResourceFile({
             project: p,
             locale: "en-GB"
         });
-
-        test.ok(jsrf);
-        test.ok(!jsrf.isDirty());
+        expect(jsrf).toBeTruthy();
+        expect(!jsrf.isDirty()).toBeTruthy();
 
         [
             p.getAPI().newResource({
@@ -1061,13 +970,103 @@ module.exports.jsonresourcefile = {
         ].forEach(function(res) {
             jsrf.addResource(res);
         });
-
         jsrf.write();
 
         var filePath = jsrf.getResourceFilePath();
         var dir = path.dirname(filePath);
-        test.ok(fs.existsSync(dir));
-        test.ok(jsrf.isDirty());
-        test.done();
-    }
-};
+        expect(fs.existsSync(dir)).toBeTruthy();
+        expect(jsrf.isDirty()).toBeTruthy();
+    });
+    test("JSONResourceFileGetContentDartZH", function() {
+        expect.assertions(2);
+
+        var jsrf = new JSONResourceFile({
+            project: p3,
+            locale: "zh-Hans-CN"
+        });
+        expect(jsrf).toBeTruthy();
+
+        [
+            p2.getAPI().newResource({
+                type: "string",
+                project: "flutterHome",
+                targetLocale: "zh-Hans-CN",
+                key: "source text",
+                sourceLocale: "en-KR",
+                source: "source text",
+                target: "Quellentext"
+            }),
+            p2.getAPI().newResource({
+                type: "string",
+                project: "flutterHome",
+                targetLocale: "zh-Hans-CN",
+                key: "more source text",
+                sourceLocale: "en-KR",
+                source: "more source text",
+                target: "mehr Quellentext"
+            }),
+            p2.getAPI().newResource({
+                type: "string",
+                project: "flutterHome",
+                targetLocale: "zh-Hans-CN",
+                key: "yet more source text",
+                sourceLocale: "en-KR",
+                source: "yet more source text",
+                target: "noch mehr Quellentext"
+            })
+        ].forEach(function(res) {
+            jsrf.addResource(res);
+        });
+        // should use the default locale spec in the first line
+        var expected =
+            '{\n' +
+            '    "more source text": "mehr Quellentext",\n' +
+            '    "source text": "Quellentext",\n' +
+            '    "yet more source text": "noch mehr Quellentext"\n' +
+            '}';
+
+        var actual = jsrf.getContent();
+        diff(actual, expected);
+
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetContentDartPlural_slSI", function() {
+        expect.assertions(2);
+
+        var jsrf = new JSONResourceFile({
+            project: p3,
+            locale: "sl-SI"
+        });
+        expect(jsrf).toBeTruthy();
+
+        [
+            p2.getAPI().newResource({
+                type: "string",
+                project: "flutterHome",
+                targetLocale: "sl-SI",
+                key: "1#At least 1 letter|#At least {num} letters",
+                sourceLocale: "en-KR",
+                source: "1#At least 1 letter|#At least {num} letters",
+                target: "1#Vsaj {num} znak|2#Vsaj {num} znaka|few#Vsaj {num} znake|#Vsaj {num} znakov"
+            })
+        ].forEach(function(res) {
+            jsrf.addResource(res);
+        });
+
+        // should use the default locale spec in the first line
+        var expected =
+            '{\n' +
+            '    "1#At least 1 letter|#At least {num} letters": {\n' +
+            '        "one": "Vsaj {num} znak",\n' +
+            '        "two": "Vsaj {num} znaka",\n' +
+            '        "few": "Vsaj {num} znake",\n' +
+            '        "other": "Vsaj {num} znakov"\n' +
+            '    }\n' +
+            '}';
+
+        var actual = jsrf.getContent();
+        diff(actual, expected);
+
+        expect(actual).toBe(expected);
+    });
+});

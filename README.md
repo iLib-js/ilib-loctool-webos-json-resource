@@ -14,16 +14,33 @@ This plugin is for generating JSON type resource files from JavaScript, C, and C
 ```
 #### Sample
 The simple sample is provided in the [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), and [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp) samples to see what JSON files look like.
+Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp), and [webos-dart](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-dart) samples to see what JSON files look like.
 
 ## License
 
-Copyright (c) 2019-2023, JEDLSoft
+Copyright (c) 2019-2024, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+
+### v1.6.0
+* Updated to support Dart filetype localization output.
+  * The following settings value is need in your `project.json` file to get proper ouput.
+  ```json
+  "settings": {
+    "dart": {
+        "mappings": {
+            "**/*.dart": {
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    },
+  }
+  ```
+* Converted all the unit tests from `nodeunit` to `jest`.
+
 ### v1.5.8
 * Updated to use ilib's Locale class for locale parsing.
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
@@ -114,7 +131,7 @@ file for more details.
 ### v1.2.0
 * Supported various resourceOutput file name. It can be specified according to project type.
     * If the project type is c or cpp program, it should be written in project configuration.
-        ~~~~
+        ~~~~json
         "settings": {
             "locales": ["en-US", "ko-KR", "zh-Hans-CN"],
             "resourceFileNames": {
