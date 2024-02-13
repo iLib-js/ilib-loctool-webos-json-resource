@@ -24,6 +24,8 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.6.1
+* Updated dependencies. (loctool: 2.24.0)
 
 ### v1.6.0
 * Updated to support Dart filetype localization output.
