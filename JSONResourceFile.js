@@ -161,23 +161,28 @@ JSONResourceFile.prototype._isPluralData = function(data) {
  * @private
  */
 JSONResourceFile.prototype._parsePluralData = function(data) {
-    var splitData = data.split("|");
     var parsePlural = {};
     var categoryMap = {
         "0" : "zero",
         "1" : "one",
         "2" : "two"
-    } 
+    }
+    var isPseudoString = false;
+    if (data.startsWith("[")) {
+        // pseudo string
+        isPseudoString = true;
+        data = data.substr(1,data.length-2);
+    }
+    var splitData = data.split("|");
     if (splitData.length > 0) {
         splitData.forEach(function(item){
             var parse = item.split("#");
             if (categoryMap[parse[0]] !== undefined) parse[0] = categoryMap[parse[0]];
             if (parse[0] === '') parse[0] = "other";
-            parsePlural[parse[0]] = parse[1];
+            parsePlural[parse[0]] = (isPseudoString) ? "[" + parse[1] + "]" : parse[1];
 
         }.bind(this));
     }
-
     return parsePlural;
 };
 
