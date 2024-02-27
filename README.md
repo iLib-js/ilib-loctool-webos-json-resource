@@ -25,7 +25,7 @@ file for more details.
 
 ## Release Notes
 ### v1.7.0
-* Update to generate the plural pseudo data for the DartFileType correctly.
+* Updated to generate the plural pseudo data for the DartFileType correctly.
 
 ### v1.6.1
 * Updated dependencies. (loctool: 2.24.0)
