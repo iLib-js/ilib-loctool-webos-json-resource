@@ -24,6 +24,9 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.7.0
+* Updated to generate the plural pseudo data for the DartFileType correctly.
+
 ### v1.6.1
 * Updated dependencies. (loctool: 2.24.0)
 
