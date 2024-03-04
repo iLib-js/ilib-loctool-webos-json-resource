@@ -21,7 +21,7 @@ var fs = require("fs");
 var path = require("path");
 var Locale = require("ilib/lib/Locale.js");
 var Utils = require("loctool/lib/utils.js");
-
+var PseudoFactory = require("loctool/lib/PseudoFactory.js");
 /**
  * @class Represents an JSON resource file.
  * The props may contain any of the following properties:
@@ -160,17 +160,16 @@ JSONResourceFile.prototype._isPluralData = function(data) {
 /**
  * @private
  */
-JSONResourceFile.prototype._parsePluralData = function(data) {
+JSONResourceFile.prototype._parsePluralData = function(data, locale) {
     var parsePlural = {};
     var categoryMap = {
         "0" : "zero",
         "1" : "one",
         "2" : "two"
     }
-    var isPseudoString = false;
-    if (data.startsWith("[")) {
-        // pseudo string
-        isPseudoString = true;
+    var pseudoLocale = PseudoFactory.isPseudoLocale(locale, this.project);
+
+    if (pseudoLocale) {
         data = data.substr(1,data.length-2);
     }
     var splitData = data.split("|");
@@ -179,7 +178,7 @@ JSONResourceFile.prototype._parsePluralData = function(data) {
             var parse = item.split("#");
             if (categoryMap[parse[0]] !== undefined) parse[0] = categoryMap[parse[0]];
             if (parse[0] === '') parse[0] = "other";
-            parsePlural[parse[0]] = (isPseudoString) ? "[" + parse[1] + "]" : parse[1];
+            parsePlural[parse[0]] = (pseudoLocale) ? "[" + parse[1] + "]" : parse[1];
 
         }.bind(this));
     }
@@ -207,7 +206,7 @@ JSONResourceFile.prototype.getContent = function() {
             var resource = resources[j];
             var result = this._isPluralData(resource.getTarget());
             if (result) {
-                var data = this._parsePluralData(resource.getTarget());
+                var data = this._parsePluralData(resource.getTarget(), resource.getTargetLocale());
                 resource.setTarget(data);
             }
 
