@@ -1,3 +1,7 @@
+
+> :warning: **Deprecation Notice** :warning:
+> This repository has been deprecated. Please use the corresponding package from the [ilib-mono-webos](https://github.com/iLib-js/ilib-mono-webos) instead.
+
 # ilib-loctool-webos-json-resource
 ilib-loctool-webos-json-resource is a plugin for the loctool that
 allows it to read and localize JSON resource files. This plugin is optimized for the webOS platform.
